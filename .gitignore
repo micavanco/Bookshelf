@@ -1,29 +1,46 @@
-HELP.md
-/target/
-!.mvn/wrapper/maven-wrapper.jar
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# compiled output
+/frontend/dist
+/frontend/tmp
+/frontend/out-tsc
+# Only exists if Bazel was run
+/frontend/bazel-out
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+# dependencies
+/frontend/node_modules
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-/build/
+# profiling files
+chrome-profiler-events.json
+speed-measure-plugin.json
 
-### VS Code ###
-.vscode/
+# IDEs and editors
+/frontend/.idea
+/frontend/.project
+/frontend/.classpath
+/frontend/.c9/
+/frontend/*.launch
+/frontend/.settings/
+/frontend/*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# misc
+/frontend/.sass-cache
+/frontend/connect.lock
+/frontend/coverage
+/frontend/libpeerconnection.log
+/frontend/npm-debug.log
+/frontend/yarn-error.log
+/frontend/testem.log
+/frontend/typings
+
+# System Files
+/frontend/.DS_Store
+Thumbs.db
