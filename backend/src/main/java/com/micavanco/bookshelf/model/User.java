@@ -1,10 +1,13 @@
 package com.micavanco.bookshelf.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -15,13 +18,14 @@ public class User {
 
     private String password;
 
-    @OneToMany(mappedBy = "user",
+    /*@OneToMany(mappedBy = "user",
                 cascade = {CascadeType.MERGE, CascadeType.PERSIST,
                             CascadeType.DETACH, CascadeType.REFRESH})
-    protected List<Book> books;
+    protected List<Book> books;*/
 
-    User(){}
+    public User(){}
 
+/*
     public void add(Book book)
     {
         if(books == null)
@@ -30,6 +34,25 @@ public class User {
         books.add(book);
 
         book.setUser(this);
+    }*/
+
+    public Long getId() {
+        return id;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

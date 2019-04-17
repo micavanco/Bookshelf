@@ -5,8 +5,8 @@ import com.micavanco.bookshelf.model.User;
 import java.util.List;
 
 public interface UserRepository {
-    User addUser(User user);
-    User removeUser(User user);
-    User getById(Integer id);
-    List<User> getAll();
+    void addUser(User user);
+    void removeUser(User user);
+    User getByUsername(String username);
+    List getAll();
 }

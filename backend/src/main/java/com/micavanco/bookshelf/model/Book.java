@@ -2,8 +2,13 @@ package com.micavanco.bookshelf.model;
 
 import javax.persistence.*;
 
-@Embeddable
+@Entity
+@Table(name = "library")
 public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String title;
 
@@ -18,11 +23,11 @@ public class Book {
     private String publisher;
 
     private String cover;
-
+/*
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
-    private User user;
+    private User user;*/
 
     public Book(){}
 
@@ -35,14 +40,14 @@ public class Book {
         this.publisher = publisher;
         this.cover = cover;
     }
-
+/*
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
+    }*/
 
     public String getTitle() {
         return title;
