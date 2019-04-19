@@ -9,4 +9,6 @@ public interface UserRepository {
     void removeUser(User user);
     User getByUsername(String username);
     List getAll();
+    User getById(Long id);
+    void deleteUserByUsername(String username);
 }

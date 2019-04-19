@@ -18,14 +18,14 @@ public class User {
 
     private String password;
 
-    /*@OneToMany(mappedBy = "user",
+    @OneToMany(mappedBy = "user",
                 cascade = {CascadeType.MERGE, CascadeType.PERSIST,
                             CascadeType.DETACH, CascadeType.REFRESH})
-    protected List<Book> books;*/
+    protected List<Book> books;
 
     public User(){}
 
-/*
+
     public void add(Book book)
     {
         if(books == null)
@@ -34,7 +34,7 @@ public class User {
         books.add(book);
 
         book.setUser(this);
-    }*/
+    }
 
     public Long getId() {
         return id;
