@@ -19,8 +19,8 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user",
-                cascade = {CascadeType.MERGE, CascadeType.PERSIST,
-                            CascadeType.DETACH, CascadeType.REFRESH})
+                fetch = FetchType.LAZY,
+                cascade = CascadeType.ALL)
     protected List<Book> books;
 
     public User(){}

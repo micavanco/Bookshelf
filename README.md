@@ -1,0 +1,2 @@
+# Bookshelf
+Web application to store books and monitor current reading progress. Newly created user has it's own library in PostgreSQL database. Backend was written in Java with Spring framework and Hibernate framework to manage database. Frontend was written in Angular.
