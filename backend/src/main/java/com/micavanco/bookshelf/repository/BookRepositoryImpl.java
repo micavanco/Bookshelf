@@ -33,13 +33,13 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     @Transactional
-    public Book getBookByTitle(String title) {
-        List<Book> books = entityManager.createQuery("from Book where title=:title").setParameter("title",title).getResultList();
+    public List<Book> getBooksByTitle(String title) {
+        List<Book> books = entityManager.createQuery("from Book where title=:title").setParameter("title",title+"%").getResultList();
 
-        if(books.size() == 0)
+        if(books.size() > 0)
             return null;
 
-        return books.get(0);
+        return books;
     }
 
     @Override
@@ -82,15 +82,15 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     @Transactional
-    public Book getUserBookByTitle(User user, String title) {
+    public List<Book> getUserBooksByTitle(User user, String title) {
         List<Book> books = entityManager.createQuery("select b from Book b where b.user.id=:user_id and b.title=:title")
                 .setParameter("user_id", user.getId())
-                .setParameter("title", title)
+                .setParameter("title", title+"%")
                 .getResultList();
 
         if(books.size() == 0)
             return null;
 
-        return books.get(0);
+        return books;
     }
 }

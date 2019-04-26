@@ -8,8 +8,8 @@ import java.util.List;
 public interface BookRepository {
     List getUserBooks(User user);
     List getAll();
-    Book getBookByTitle(String title);
+    List getBooksByTitle(String title);
     void addBook(Book book);
     void deleteUserBookByTitle(User user, String title);
-    Book getUserBookByTitle(User user, String title);
+    List getUserBooksByTitle(User user, String title);
 }

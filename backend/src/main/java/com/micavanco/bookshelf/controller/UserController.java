@@ -2,9 +2,12 @@ package com.micavanco.bookshelf.controller;
 
 import com.micavanco.bookshelf.model.User;
 import com.micavanco.bookshelf.repository.UserRepository;
+import com.micavanco.bookshelf.service.implementations.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,12 +15,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/users")
 public class UserController {
-    private UserRepository userRepository;
+
+    private UserServiceImpl userService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserRepository userRepository)
+    public UserController(UserServiceImpl userService, PasswordEncoder passwordEncoder)
     {
-        this.userRepository = userRepository;
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -26,9 +32,9 @@ public class UserController {
     {
         User user = new User();
         user.setUsername(username);
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));
         try {
-            userRepository.addUser(user);
+            userService.addUser(user);
         }catch (Exception ex)
         {
             return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -38,24 +44,24 @@ public class UserController {
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public ResponseEntity<User> getUser(@RequestParam(value = "username")String username)
+    public ResponseEntity<UserDetails> getUser(@RequestParam(value = "username")String username)
     {
-        User user;
+        UserDetails user;
         try {
-            user = userRepository.getByUsername(username);
+            user = userService.loadUserByUsername(username);
         }catch (Exception ex)
         {
-            return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<UserDetails>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return user != null ? new ResponseEntity<User>(user, HttpStatus.OK)
-                : new ResponseEntity<User>(HttpStatus.NO_CONTENT);
+        return user != null ? new ResponseEntity<UserDetails>(user, HttpStatus.OK)
+                : new ResponseEntity<UserDetails>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteUser(@RequestParam(value = "username")String username)
     {
         try {
-            userRepository.deleteUserByUsername(username);
+            userService.removeUser(username);
         }catch (Exception ex)
         {
             return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
