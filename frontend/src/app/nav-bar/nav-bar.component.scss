@@ -1,0 +1,21 @@
+#nav-bar{
+  height: 89px;
+  background: rgba(176,176,176,0.37);
+  position: fixed;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  z-index: 10;
+}
+
+.nav-button{
+  float: right;
+}
+
+.logged_user{
+  float: right;
+}
+
+.logo{
+  float: left;
+}

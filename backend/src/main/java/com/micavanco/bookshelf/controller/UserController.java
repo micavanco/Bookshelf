@@ -26,6 +26,7 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @CrossOrigin(origins = "http://localhost:5000")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<User> addUser(@RequestParam(value = "username")String username,
                                         @RequestParam(value = "password")String password)
@@ -47,6 +48,7 @@ public class UserController {
                 : new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
 
+    @CrossOrigin(origins = "http://localhost:5000")
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public ResponseEntity<UserDetails> getUser(@RequestParam(value = "username")String username)
     {
@@ -61,6 +63,7 @@ public class UserController {
                 : new ResponseEntity<UserDetails>(HttpStatus.NO_CONTENT);
     }
 
+    @CrossOrigin(origins = "http://localhost:5000")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteUser(@RequestParam(value = "username")String username)
     {

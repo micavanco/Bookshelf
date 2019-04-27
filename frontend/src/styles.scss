@@ -1,1 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+/* -------------- OVERALL SECTION ------------------- */
+/* CSS reset */
+* {
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+body {
+  height: 100%;
+  width: 100%;
+  font-family: 'Open Sans', sans-serif;
+  color: #1D1D1D;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reset
+{
+  overflow: hidden
+}
+
+a {
+  text-decoration: none;
+}
+
+.main-container{
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+  overflow: auto;
+  display: block;
+}

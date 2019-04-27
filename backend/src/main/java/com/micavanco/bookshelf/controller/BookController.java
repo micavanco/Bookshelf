@@ -9,10 +9,7 @@ import com.micavanco.bookshelf.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +25,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
+    @CrossOrigin(origins = "http://localhost:5000")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<Book> addBook(@RequestParam(value = "title")String title,
                                         @RequestParam(value = "author")String author,
@@ -57,6 +55,7 @@ public class BookController {
                 new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
     }
 
+    @CrossOrigin(origins = "http://localhost:5000")
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<List<Book>> getUserBooks(@RequestParam(value = "username")String username)
     {
@@ -72,6 +71,7 @@ public class BookController {
                 : new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
     }
 
+    @CrossOrigin(origins = "http://localhost:5000")
     @RequestMapping(value = "/user/title", method = RequestMethod.GET)
     public ResponseEntity<List<Book>> getUserBooksByTitle(
             @RequestParam(value = "username")String username,
@@ -89,6 +89,7 @@ public class BookController {
                 : new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
     }
 
+    @CrossOrigin(origins = "http://localhost:5000")
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public ResponseEntity<List<Book>> getBooksByTitle(@RequestParam(value = "title")String title)
     {
@@ -104,7 +105,7 @@ public class BookController {
                 : new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
     }
 
-
+    @CrossOrigin(origins = "http://localhost:5000")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public ResponseEntity<Book> deleteUserBook(@RequestParam(value = "user_id")Long user_id,
                                                @RequestParam(value = "title")String title)
@@ -121,6 +122,7 @@ public class BookController {
                 new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @CrossOrigin(origins = "http://localhost:5000")
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     public ResponseEntity<List<Book>> getBooks()
     {

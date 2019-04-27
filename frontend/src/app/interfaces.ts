@@ -7,3 +7,11 @@ export interface IBook {
   publisher: string,
   cover: string
 }
+
+export interface IUser {
+  user_id: number,
+  username: string,
+  password: string,
+  enabled: boolean,
+  authority: string
+}
