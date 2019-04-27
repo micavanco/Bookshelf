@@ -2,10 +2,12 @@ package com.micavanco.bookshelf.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -30,7 +32,8 @@ public class User implements UserDetails {
                 cascade = CascadeType.ALL)
     protected List<Book> books;
 
-    public User(){}
+    public User(){
+    }
 
 
     public void add(Book book)
@@ -53,17 +56,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     public void setUsername(String username) {
@@ -72,7 +75,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     public String getPassword() {
@@ -84,7 +87,7 @@ public class User implements UserDetails {
     }
 
     public boolean isEnabled() {
-        return enabled;
+        return true;
     }
 
     public void setEnabled(boolean enabled) {

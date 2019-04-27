@@ -27,12 +27,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<User> getUser(@RequestParam(value = "username")String username,
+    public ResponseEntity<User> addUser(@RequestParam(value = "username")String username,
                                         @RequestParam(value = "password")String password)
     {
+        UserDetails user_temp = userService.loadUserByUsername(username);
+        if(user_temp != null)
+            return new ResponseEntity<User>(HttpStatus.CONFLICT);
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
+        user.setEnabled(true);
         try {
             userService.addUser(user);
         }catch (Exception ex)
