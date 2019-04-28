@@ -1,6 +1,6 @@
 #nav-bar{
-  height: 89px;
-  background: rgba(176,176,176,0.37);
+  height: 55px;
+  background: #FFBA75;
   position: fixed;
   width: 100%;
   max-width: 1400px;
@@ -10,12 +10,37 @@
 
 .nav-button{
   float: right;
+  height: 45px;
+  width: 120px;
+  border: 1px solid rgb(176, 92, 89);
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin: 5px;
+  cursor: pointer;
+  transition: all ease-in-out 0.2s;
+  box-shadow: 1px 0px 14px -6px rgba(0,0,0,0.75);
+  background: #FFE0C2;
+}
+
+.nav-button:hover{
+  border-radius: 12px;
+}
+
+.nav-button:active{
+  background: rgba(123, 42, 43, 0.4);
+  border-radius: 12px;
 }
 
 .logged_user{
   float: right;
+  margin: 20px;
 }
 
 .logo{
   float: left;
+  margin: 11px 15px;
+  font-size: 24px;
+  font-weight: bold;
 }

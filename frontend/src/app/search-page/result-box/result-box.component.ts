@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {IBook} from "../interfaces";
+import {IBook} from "../../interfaces";
 
 @Component({
   selector: 'app-result-box',

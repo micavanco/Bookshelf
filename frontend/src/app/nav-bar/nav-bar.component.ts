@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {IUser} from "../interfaces";
 
 @Component({
   selector: 'app-nav-bar',

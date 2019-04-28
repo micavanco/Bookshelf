@@ -14,7 +14,7 @@ export class UserBoxComponent implements OnInit {
   constructor(private userService: UserService) {
     this.user = {
       user_id: 12,
-      username: "witam",
+      username: "anonymous",
       password: 'password',
       enabled: true,
       authority: 'authorities'
