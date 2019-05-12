@@ -1,29 +1,43 @@
 package com.micavanco.bookshelf.controller;
 
+import com.micavanco.bookshelf.configuration.JwtTokenProvider;
 import com.micavanco.bookshelf.model.User;
+import com.micavanco.bookshelf.payload.JWTLoginSuccessResponse;
+import com.micavanco.bookshelf.payload.LoginRequest;
 import com.micavanco.bookshelf.repository.UserRepository;
 import com.micavanco.bookshelf.service.implementations.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.micavanco.bookshelf.configuration.SecurityConstants.TOKEN_PREFIX;
 
 @RestController
 @RequestMapping("/v1/users")
 public class UserController {
 
     private UserServiceImpl userService;
+    private JwtTokenProvider tokenProvider;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserController(UserServiceImpl userService)
+    public UserController(UserServiceImpl userService, JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager)
     {
         this.userService = userService;
+        this.tokenProvider = jwtTokenProvider;
+        this.authenticationManager = authenticationManager;
     }
 
     @CrossOrigin(origins = "http://localhost:5000")
@@ -62,7 +76,7 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "http://localhost:5000")
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    @RequestMapping(value = "/get", method = RequestMethod.POST)
     public ResponseEntity<UserDetails> getUser(@RequestParam(value = "username")String username)
     {
         UserDetails user;
@@ -90,12 +104,22 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "http://localhost:5000")
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ResponseEntity<UserDetails> loginUser(@RequestParam(value = "username")String username,
-                                               @RequestParam(value = "password")String password)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest)
     {
         UserDetails user;
+        Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                    loginRequest.getUsername(), loginRequest.getPassword()
+            )
+        );
 
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = TOKEN_PREFIX+tokenProvider.generateToken(authentication);
+
+        return ResponseEntity.ok(new JWTLoginSuccessResponse(true, jwt));
+
+        /*
         try {
             user = userService.loginUser(username, password);
         }catch (Exception ex)
@@ -103,6 +127,6 @@ public class UserController {
             return new ResponseEntity<UserDetails>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return user != null ? new ResponseEntity<UserDetails>(user, HttpStatus.OK)
-                : new ResponseEntity<UserDetails>(HttpStatus.NO_CONTENT);
+                : new ResponseEntity<UserDetails>(HttpStatus.NO_CONTENT);*/
     }
 }

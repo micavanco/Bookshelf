@@ -5,7 +5,9 @@ import com.micavanco.bookshelf.service.implementations.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserServiceImpl userService;
+
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
@@ -43,6 +46,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         authProvider.setUserDetailsService(userService);
         authProvider.setPasswordEncoder(encoder());
         return authProvider;
+    }
+
+    @Override
+    @Bean(BeanIds.AUTHENTICATION_MANAGER)
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
 
     @Override
@@ -62,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(ADD_BOOK_URL, DELETE_BOOK_URL)
                 .hasRole("USER")
-                .antMatchers(ADMIN_USERS_URL, ADMIN_BOOKS_URL)
+                .antMatchers(ADMIN_USERS_URL_DELETE, ADMIN_BOOKS_URL_USER)
                 .hasRole("ADMIN")
                 .antMatchers(SIGN_UP_URL, SIGN_IN_URL)
                 .permitAll()
