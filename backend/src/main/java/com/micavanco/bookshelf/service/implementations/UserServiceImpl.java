@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,12 +17,14 @@ public class UserServiceImpl implements UserDetailsService {
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository)
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder)
     {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -48,6 +51,7 @@ public class UserServiceImpl implements UserDetailsService {
 
     public boolean addUser(User user) {
         try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.addUser(user);
             User user_temp = userRepository.getByUsername(user.getUsername());
             Role role = new Role();
@@ -59,6 +63,16 @@ public class UserServiceImpl implements UserDetailsService {
         {
             return false;
         }
+    }
+
+    public UserDetails loginUser(String username, String password)
+    {
+        UserDetails user_temp = loadUserByUsername(username);
+
+        if(!user_temp.getPassword().equals(passwordEncoder.encode(password)))
+            return null;
+
+        return user_temp;
     }
 
 

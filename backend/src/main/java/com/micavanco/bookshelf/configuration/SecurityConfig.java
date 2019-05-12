@@ -7,18 +7,29 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
+import static com.micavanco.bookshelf.configuration.SecurityConstants.*;
+
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        securedEnabled = true,
+        jsr250Enabled = true,
+        prePostEnabled = true
+)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private JwtAuthenticationEntryPoint unauthorizedHandler;
 
     @Bean
     public PasswordEncoder encoder() {
@@ -41,12 +52,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/v1/books/add", "/v1/books/delete")
-                .hasRole("USER")
-                .antMatchers("/v1/users","/v1/users/add", "/v1/users/get")
-                .permitAll()
+        http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .httpBasic();
+                .headers().frameOptions().sameOrigin() // to enable H2 Database
+                .and()
+                .authorizeRequests()
+                .antMatchers(ADD_BOOK_URL, DELETE_BOOK_URL)
+                .hasRole("USER")
+                .antMatchers(ADMIN_USERS_URL, ADMIN_BOOKS_URL)
+                .hasRole("ADMIN")
+                .antMatchers(SIGN_UP_URL, SIGN_IN_URL)
+                .permitAll()
+                .anyRequest()
+                .authenticated();
     }
 
     /*

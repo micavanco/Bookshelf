@@ -11,4 +11,5 @@ public interface UserRepository {
     List getAll();
     User getById(Long id);
     void deleteUserByUsername(String username);
+
 }

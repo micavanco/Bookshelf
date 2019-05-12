@@ -4,12 +4,14 @@ import com.micavanco.bookshelf.model.User;
 import com.micavanco.bookshelf.repository.UserRepository;
 import com.micavanco.bookshelf.service.implementations.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -17,26 +19,37 @@ import java.util.List;
 public class UserController {
 
     private UserServiceImpl userService;
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserServiceImpl userService, PasswordEncoder passwordEncoder)
+    public UserController(UserServiceImpl userService)
     {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @CrossOrigin(origins = "http://localhost:5000")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<User> addUser(@RequestParam(value = "username")String username,
-                                        @RequestParam(value = "password")String password)
+                                        @RequestParam(value = "password")String password,
+                                        @RequestParam(value = "confirmPassword")String confirmPassword)
     {
         UserDetails user_temp = userService.loadUserByUsername(username);
         if(user_temp != null)
-            return new ResponseEntity<User>(HttpStatus.CONFLICT);
+        {
+            LinkedMultiValueMap<String, String>  linkedMultiValueMap = new LinkedMultiValueMap();
+            linkedMultiValueMap.add("error", "This username already exist");
+            return new ResponseEntity<User>(linkedMultiValueMap,HttpStatus.CONFLICT);
+        }
+
+        if(!password.equals(confirmPassword))
+        {
+            LinkedMultiValueMap<String, String> linkedMultiValueMap = new LinkedMultiValueMap();
+            linkedMultiValueMap.add("error", "Confirm password is not the same as password");
+            return new ResponseEntity<User>(linkedMultiValueMap,HttpStatus.CONFLICT);
+        }
+
         User user = new User();
         user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
+        user.setPassword(password);
         user.setEnabled(true);
         try {
             userService.addUser(user);
@@ -74,5 +87,22 @@ public class UserController {
             return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<User>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5000")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ResponseEntity<UserDetails> loginUser(@RequestParam(value = "username")String username,
+                                               @RequestParam(value = "password")String password)
+    {
+        UserDetails user;
+
+        try {
+            user = userService.loginUser(username, password);
+        }catch (Exception ex)
+        {
+            return new ResponseEntity<UserDetails>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return user != null ? new ResponseEntity<UserDetails>(user, HttpStatus.OK)
+                : new ResponseEntity<UserDetails>(HttpStatus.NO_CONTENT);
     }
 }

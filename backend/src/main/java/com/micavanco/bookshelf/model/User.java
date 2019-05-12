@@ -1,15 +1,14 @@
 package com.micavanco.bookshelf.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import javax.validation.constraints.NotBlank;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -21,11 +20,28 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Username is required")
+    @Column(unique = true)
     private String username;
 
+    @NotBlank(message = "Password is required")
     private String password;
 
+    @Transient
+    @JsonIgnore
+    private String confirmPassword;
+
+    private Date created_At;
+
+    private Date updated_At;
+
     private boolean enabled;
+
+    @PrePersist
+    protected void onCreate(){this.created_At = new Date();}
+
+    @PreUpdate
+    protected void onUpdate(){this.updated_At = new Date();}
 
     @OneToMany(mappedBy = "user",
                 fetch = FetchType.LAZY,
@@ -35,6 +51,29 @@ public class User implements UserDetails {
     public User(){
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    public Date getCreated_At() {
+        return created_At;
+    }
+
+    public void setCreated_At(Date created_At) {
+        this.created_At = created_At;
+    }
+
+    public Date getUpdated_At() {
+        return updated_At;
+    }
+
+    public void setUpdated_At(Date updated_At) {
+        this.updated_At = updated_At;
+    }
 
     public void add(Book book)
     {
