@@ -53,6 +53,7 @@ public class User implements UserDetails {
     protected List<Book> books;
 
     public User(){
+        this.role = "ROLE_USER";
     }
 
     public String getConfirmPassword() {

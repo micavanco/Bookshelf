@@ -22,6 +22,7 @@
   transition: all ease-in-out 0.2s;
   box-shadow: 1px 0px 14px -6px rgba(0,0,0,0.75);
   background: #FFE0C2;
+  outline: none;
 }
 
 .nav-button:hover{
@@ -31,6 +32,7 @@
 .nav-button:active{
   background: rgba(123, 42, 43, 0.4);
   border-radius: 12px;
+  color: #f62917;
 }
 
 .logged_user{
@@ -43,4 +45,6 @@
   margin: 11px 15px;
   font-size: 24px;
   font-weight: bold;
+  cursor: pointer;
+  outline: none;
 }
