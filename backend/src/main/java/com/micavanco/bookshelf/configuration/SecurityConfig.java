@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.micavanco.bookshelf.configuration.SecurityConstants.*;
 
@@ -33,6 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter(){return new JwtAuthenticationFilter();}
 
     @Bean
     public PasswordEncoder encoder() {
@@ -69,14 +73,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().sameOrigin() // to enable H2 Database
                 .and()
                 .authorizeRequests()
-                .antMatchers(ADD_BOOK_URL, DELETE_BOOK_URL)
-                .hasRole("USER")
-                .antMatchers(ADMIN_USERS_URL_DELETE, ADMIN_BOOKS_URL_USER)
-                .hasRole("ADMIN")
                 .antMatchers(SIGN_UP_URL, SIGN_IN_URL)
                 .permitAll()
                 .anyRequest()
                 .authenticated();
+
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     /*

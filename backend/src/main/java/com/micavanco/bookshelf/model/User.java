@@ -31,6 +31,10 @@ public class User implements UserDetails {
     @JsonIgnore
     private String confirmPassword;
 
+    @Transient
+    @JsonIgnore
+    private String role;
+
     private Date created_At;
 
     private Date updated_At;
@@ -85,6 +89,14 @@ public class User implements UserDetails {
         book.setUser(this);
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public Long getId() {
         return id;
     }
@@ -114,7 +126,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+        return Arrays.asList(new SimpleGrantedAuthority(role.trim()));
     }
 
     public String getPassword() {

@@ -9,6 +9,7 @@ import com.micavanco.bookshelf.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class BookController {
     }
 
     @CrossOrigin(origins = "http://localhost:5000")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<Book> addBook(@RequestParam(value = "title")String title,
                                         @RequestParam(value = "author")String author,
@@ -106,6 +108,7 @@ public class BookController {
     }
 
     @CrossOrigin(origins = "http://localhost:5000")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public ResponseEntity<Book> deleteUserBook(@RequestParam(value = "user_id")Long user_id,
                                                @RequestParam(value = "title")String title)
@@ -123,6 +126,7 @@ public class BookController {
     }
 
     @CrossOrigin(origins = "http://localhost:5000")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     public ResponseEntity<List<Book>> getBooks()
     {

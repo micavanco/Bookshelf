@@ -29,7 +29,9 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.getByUsername(username);
+        User user = userRepository.getByUsername(username);
+        user.setRole(roleRepository.get(user.getId()).getRole());
+        return user;
     }
 
 
@@ -73,6 +75,11 @@ public class UserServiceImpl implements UserDetailsService {
             return null;
 
         return user_temp;
+    }
+
+    public User getUserById(Long id)
+    {
+        return userRepository.getById(id);
     }
 
 
