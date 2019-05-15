@@ -36,7 +36,8 @@ public class BookController {
                                         @RequestParam(value = "language")String language,
                                         @RequestParam(value = "publisher")String publisher,
                                         @RequestParam(value = "cover")String cover,
-                                        @RequestParam(value = "user_id")Long user_id)
+                                        @RequestParam(value = "user_id")Long user_id,
+                                        @RequestParam(value = "user_password")String user_password)
     {
         Book book = new Book();
         book.setTitle(title);
@@ -48,7 +49,7 @@ public class BookController {
         book.setCover(cover);
         boolean wasCreated;
         try {
-            wasCreated = bookService.addBook(book, user_id);
+            wasCreated = bookService.addBook(book, user_id, user_password);
         }catch (Exception ex)
         {
             return new ResponseEntity<Book>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -58,12 +59,14 @@ public class BookController {
     }
 
     @CrossOrigin(origins = "http://localhost:5000")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public ResponseEntity<List<Book>> getUserBooks(@RequestParam(value = "username")String username)
+    public ResponseEntity<List<Book>> getUserBooks(@RequestParam(value = "username")String username,
+                                                   @RequestParam(value = "user_password")String user_password)
     {
         List<Book> books;
         try {
-            books = bookService.getUserBooks(username);
+            books = bookService.getUserBooks(username, user_password);
         }catch (Exception ex)
         {
             return new ResponseEntity<List<Book>>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -74,14 +77,16 @@ public class BookController {
     }
 
     @CrossOrigin(origins = "http://localhost:5000")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @RequestMapping(value = "/user/title", method = RequestMethod.GET)
     public ResponseEntity<List<Book>> getUserBooksByTitle(
             @RequestParam(value = "username")String username,
-            @RequestParam(value = "title")String title)
+            @RequestParam(value = "title")String title,
+            @RequestParam(value = "user_password")String user_password)
     {
         List<Book> books;
         try {
-            books = bookService.getUserBooksByTitle(username, title);
+            books = bookService.getUserBooksByTitle(username, title, user_password);
         }catch (Exception ex)
         {
             return new ResponseEntity<List<Book>>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -92,6 +97,7 @@ public class BookController {
     }
 
     @CrossOrigin(origins = "http://localhost:5000")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public ResponseEntity<List<Book>> getBooksByTitle(@RequestParam(value = "title")String title)
     {
@@ -111,11 +117,12 @@ public class BookController {
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public ResponseEntity<Book> deleteUserBook(@RequestParam(value = "user_id")Long user_id,
-                                               @RequestParam(value = "title")String title)
+                                               @RequestParam(value = "title")String title,
+                                               @RequestParam(value = "user_password")String user_password)
     {
         boolean wasDeleted;
         try {
-            wasDeleted = bookService.deleteUserBookByTitle(user_id, title);
+            wasDeleted = bookService.deleteUserBookByTitle(user_id, title, user_password);
         }catch (Exception ex)
         {
             return new ResponseEntity<Book>(HttpStatus.INTERNAL_SERVER_ERROR);

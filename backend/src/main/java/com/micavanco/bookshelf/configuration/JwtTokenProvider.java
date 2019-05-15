@@ -55,10 +55,10 @@ public class JwtTokenProvider implements Serializable {
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", (Long.toString(user.getId())));
         claims.put("username", user.getUsername());
+        claims.put("password", user.getPassword());
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                //.setSubject(userId)
                 //.setClaims(claims)
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)

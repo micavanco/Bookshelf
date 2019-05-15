@@ -29,9 +29,7 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.getByUsername(username);
-        user.setRole(roleRepository.get(user.getId()).getRole());
-        return user;
+        return userRepository.getByUsername(username);
     }
 
 
@@ -40,13 +38,11 @@ public class UserServiceImpl implements UserDetailsService {
     }
 
 
-    public boolean removeUser(String username) {
+    public boolean removeUser(String username, String password) {
         User user = userRepository.getByUsername(username);
-        if(user == null)
+        if(user == null || !passwordEncoder.matches(password, user.getPassword()))
             return false;
         userRepository.removeUser(user);
-        Role role = roleRepository.get(user.getId());
-        roleRepository.delete(role);
         return true;
     }
 
@@ -55,11 +51,6 @@ public class UserServiceImpl implements UserDetailsService {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.addUser(user);
-            User user_temp = userRepository.getByUsername(user.getUsername());
-            Role role = new Role();
-            role.setRole(user.getAuthorities().toString().substring(1).replace("]",""));
-            role.setUser_id(user_temp.getId());
-            roleRepository.add(role);
             return true;
         }catch (Exception ex)
         {
@@ -71,7 +62,7 @@ public class UserServiceImpl implements UserDetailsService {
     {
         UserDetails user_temp = loadUserByUsername(username);
 
-        if(!user_temp.getPassword().equals(passwordEncoder.encode(password)))
+        if(!passwordEncoder.matches(password, user_temp.getPassword()))
             return null;
 
         return user_temp;

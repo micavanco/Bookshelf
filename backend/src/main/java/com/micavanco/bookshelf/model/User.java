@@ -31,9 +31,14 @@ public class User implements UserDetails {
     @JsonIgnore
     private String confirmPassword;
 
-    @Transient
+    @OneToOne(
+            mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     @JsonIgnore
-    private String role;
+    private Role role;
 
     private Date created_At;
 
@@ -49,12 +54,11 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user",
                 fetch = FetchType.LAZY,
-                cascade = CascadeType.ALL)
+                cascade = CascadeType.ALL,
+                orphanRemoval = true)
     protected List<Book> books;
 
-    public User(){
-        this.role = "ROLE_USER";
-    }
+    public User(){}
 
     public String getConfirmPassword() {
         return confirmPassword;
@@ -80,7 +84,7 @@ public class User implements UserDetails {
         this.updated_At = updated_At;
     }
 
-    public void add(Book book)
+    public void addBook(Book book)
     {
         if(books == null)
             books = new ArrayList<>();
@@ -90,11 +94,18 @@ public class User implements UserDetails {
         book.setUser(this);
     }
 
-    public String getRole() {
+    public void addRole(Role role)
+    {
+        this.role = role;
+
+        role.setUser(this);
+    }
+
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -127,7 +138,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority(role.trim()));
+        return Arrays.asList(new SimpleGrantedAuthority(role.getRole().trim()));
     }
 
     public String getPassword() {

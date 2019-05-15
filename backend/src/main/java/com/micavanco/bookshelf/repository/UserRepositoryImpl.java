@@ -22,12 +22,6 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     @Transactional
     public void removeUser(User user) {
-
-        User temp = entityManager.find(User.class, user);
-
-        if(temp == null)
-            return;
-
         entityManager.remove(user);
     }
 

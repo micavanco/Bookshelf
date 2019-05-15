@@ -6,6 +6,7 @@ import com.micavanco.bookshelf.repository.BookRepository;
 import com.micavanco.bookshelf.repository.UserRepository;
 import com.micavanco.bookshelf.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,19 +15,21 @@ public class BookServiceImpl implements BookService {
 
     private BookRepository bookRepository;
     private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, UserRepository userRepository)
+    public BookServiceImpl(BookRepository bookRepository, UserRepository userRepository, PasswordEncoder passwordEncoder)
     {
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public List getUserBooks(String username) {
+    public List getUserBooks(String username, String user_password) {
         User user = userRepository.getByUsername(username);
 
-        if(user == null)
+        if(user == null || !passwordEncoder.matches(user_password, user.getPassword()))
             return null;
 
         return bookRepository.getUserBooks(user);
@@ -43,22 +46,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean addBook(Book book, Long user_id) {
+    public boolean addBook(Book book, Long user_id, String user_password) {
         User user = userRepository.getById(user_id);
-
-        if(user == null)
+        if(user == null || !passwordEncoder.matches(user_password, user.getPassword()))
             return false;
 
-        user.add(book);
+        user.addBook(book);
         userRepository.addUser(user);
         return true;
     }
 
     @Override
-    public boolean deleteUserBookByTitle(Long user_id, String title) {
+    public boolean deleteUserBookByTitle(Long user_id, String title, String user_password) {
         User user = userRepository.getById(user_id);
 
-        if(user == null)
+        if(user == null || !passwordEncoder.matches(user_password, user.getPassword()))
             return false;
 
         bookRepository.deleteUserBookByTitle(user, title);
@@ -66,10 +68,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getUserBooksByTitle(String username, String title) {
+    public List<Book> getUserBooksByTitle(String username, String title, String user_password) {
         User user = userRepository.getByUsername(username);
 
-        if(user == null)
+        if(user == null || !passwordEncoder.matches(user_password, user.getPassword()))
             return null;
 
         return bookRepository.getUserBooksByTitle(user, title);

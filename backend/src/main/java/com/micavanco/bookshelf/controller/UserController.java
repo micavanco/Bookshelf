@@ -1,6 +1,7 @@
 package com.micavanco.bookshelf.controller;
 
 import com.micavanco.bookshelf.configuration.JwtTokenProvider;
+import com.micavanco.bookshelf.model.Role;
 import com.micavanco.bookshelf.model.User;
 import com.micavanco.bookshelf.payload.JWTLoginSuccessResponse;
 import com.micavanco.bookshelf.payload.LoginRequest;
@@ -66,6 +67,9 @@ public class UserController {
         user.setUsername(username);
         user.setPassword(password);
         user.setEnabled(true);
+        Role role = new Role();
+        role.setRole("ROLE_USER");
+        user.addRole(role);
         try {
             userService.addUser(user);
         }catch (Exception ex)
@@ -92,12 +96,15 @@ public class UserController {
                 : new ResponseEntity<UserDetails>(HttpStatus.NO_CONTENT);
     }
 
+
     @CrossOrigin(origins = "http://localhost:5000")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public ResponseEntity<User> deleteUser(@RequestParam(value = "username")String username)
+    public ResponseEntity<User> deleteUser(@RequestParam(value = "username")String username,
+                                           @RequestParam(value = "password")String password)
     {
         try {
-            userService.removeUser(username);
+            userService.removeUser(username, password);
         }catch (Exception ex)
         {
             return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
