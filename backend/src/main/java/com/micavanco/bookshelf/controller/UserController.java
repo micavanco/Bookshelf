@@ -126,7 +126,7 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
 
-        return ResponseEntity.ok(new JWTLoginSuccessResponse(true, jwt));
+        return ResponseEntity.ok(new JWTLoginSuccessResponse(loginRequest.getUsername(),true, jwt));
 
         /*
         try {

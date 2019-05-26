@@ -1,3 +1,2 @@
-
-  <div>Logged as: {{user.username}}</div>
-
+<div class="user-box" *ngIf="userService.isLoggedIn()">Logged as: <div class="username">{{getUsername()}}</div> Time to session end: <span>{{getExpires()}} min</span></div>
+<div class="user-box" *ngIf="!userService.isLoggedIn()">Logged as: <div class="username">anonymous</div></div>

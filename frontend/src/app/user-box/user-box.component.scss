@@ -1,0 +1,20 @@
+
+
+.user-box{
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+}
+
+.user-box > span{
+  color: #f62917;
+  padding-left: 3px;
+}
+
+.username{
+  font-style: italic;
+  font-weight: bolder;
+  color: #453230;
+  padding-left: 3px;
+  padding-right: 9px;
+}

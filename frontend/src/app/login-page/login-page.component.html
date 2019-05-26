@@ -1,10 +1,11 @@
 <div class="login-box">
-  <form>
+  <form [formGroup]="form" >
     <label for="username">Username:</label><br/>
-    <input type="text" id="username" /><br/>
+    <input type="text" id="username" formControlName="username"/><br/>
     <label for="password">Password:</label><br/>
-    <input type="password" id="password" /><br/>
-    <button type="submit">Login</button>
+    <input type="password" id="password" formControlName="password"/><br/>
+    <div *ngIf="error" class="error">Invalid password or username</div>
+    <button (click)="login()">Login</button>
   </form>
   <span routerLink="/register">Not have account yet</span>
 </div>

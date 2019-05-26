@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Map;
 
 import static com.micavanco.bookshelf.configuration.SecurityConstants.HEADER_STRING;
 import static com.micavanco.bookshelf.configuration.SecurityConstants.TOKEN_PREFIX;
@@ -53,10 +54,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserDetails userDetails = userService.loadUserByUsername(username);
 
                 if (jwtTokenProvider.validateToken(jwt, userDetails)) {
+
                     UsernamePasswordAuthenticationToken authentication = jwtTokenProvider.getUserAuthentication(jwt, SecurityContextHolder.getContext().getAuthentication(), userDetails);
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                     logger.info("authenticated user " + username + ", setting security context");
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+
                 }
             }
 
@@ -64,7 +67,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         {
             logger.error("Could not set user authentication in security context", ex);
         }
-
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
