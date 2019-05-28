@@ -1,6 +1,7 @@
 <header id="nav-bar">
-  <div class="nav-button" routerLink="/login">Login</div>
-  <div class="nav-button" routerLink="/library">My library</div>
+  <div class="nav-button" *ngIf="!userService.isLoggedIn()" routerLink="/login">Login</div>
+  <div class="nav-button" *ngIf="userService.isLoggedIn()" routerLink="/account">Account</div>
+  <div class="nav-button" (click)="isLoggedIn()">My library</div>
   <div class="nav-button" routerLink="/">Search books</div>
   <app-user-box class="logged_user"></app-user-box>
   <div class="logo" routerLink="/">OLECH</div>

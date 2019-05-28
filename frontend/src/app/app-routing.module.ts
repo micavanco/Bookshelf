@@ -4,12 +4,14 @@ import { LoginPageComponent } from "./login-page/login-page.component";
 import { LibraryPageComponent } from "./library-page/library-page.component";
 import { SearchPageComponent } from "./search-page/search-page.component";
 import { RegisterPageComponent } from "./register-page/register-page.component";
+import { AccountPageComponent } from "./account-page/account-page.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'library', component: LibraryPageComponent},
   { path: '', component: SearchPageComponent},
-  { path: 'register', component: RegisterPageComponent}
+  { path: 'register', component: RegisterPageComponent},
+  { path: 'account', component: AccountPageComponent}
 ];
 
 @NgModule({

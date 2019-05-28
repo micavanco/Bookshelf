@@ -1,4 +1,4 @@
-.login-box{
+.account-box{
   display: flex;
   flex-direction: column;
   border: 1px solid black;
@@ -24,6 +24,7 @@ button{
   border: 1px solid #707070;
   transition: all ease-in-out 0.2s;
   box-shadow: 3px 7px 27px -7px rgba(0,0,0,0.5);
+  margin: 10px 0;
   outline: none;
 }
 
@@ -38,21 +39,11 @@ button:active{
   color: #f62917;
 }
 
+.details{
+  margin: 10px 0;
+}
+
 span{
-  margin-top: 30px;
-  color: #ffa28a;
-  cursor: pointer;
-  transition: all ease-in-out 0.3s;
-  outline: none;
-}
-
-span:hover
-{
-  color: #f62917;
-  text-shadow: 1px 1px 5px  rgba(0,0,0,0.4);
-}
-
-.error{
-  font-size: 14px;
-  color: #f62917;
+  font-weight: bolder;
+  font-style: italic;
 }

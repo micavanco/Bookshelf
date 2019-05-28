@@ -16,6 +16,8 @@ import { LibraryPageComponent } from './library-page/library-page.component';
 import { SearchPageComponent } from './search-page/search-page.component';
 import {AuthInterceptorService} from "./auth-interceptor/auth-interceptor.service";
 import {ReactiveFormsModule} from "@angular/forms";
+import { AccountPageComponent } from './account-page/account-page.component';
+
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     LoginPageComponent,
     RegisterPageComponent,
     LibraryPageComponent,
-    SearchPageComponent
+    SearchPageComponent,
+    AccountPageComponent
   ],
   imports: [
     BrowserModule,

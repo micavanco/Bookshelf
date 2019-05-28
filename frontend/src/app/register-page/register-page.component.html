@@ -1,12 +1,15 @@
 <div class="register-box">
   <h1>Create account</h1>
-
+  <form [formGroup]="form" >
     <label for="username">Username:</label><br/>
-    <input type="text" id="username" /><br/>
+    <input type="text" id="username" formControlName="username"/><br/>
+    <div *ngIf="userExists" class="error">This username already exists!</div>
     <label for="password">Password:</label><br/>
-    <input type="password" id="password" /><br/>
+    <input type="password" id="password" formControlName="password"/><br/>
+    <div *ngIf="!isPassCorrect" class="error">Passwords must be at least 6 characters!</div>
     <label for="confirm-password">Confirm password:</label><br/>
-    <input type="password" id="confirm-password" /><br/>
-    <button type="submit">Create</button>
-
+    <input type="password" id="confirm-password" formControlName="confirmPassword"/><br/>
+    <div *ngIf="!isPassTheSame" class="error">Passwords are not the same!</div>
+    <button (click)="onCreate()">Create</button>
+  </form>
 </div>

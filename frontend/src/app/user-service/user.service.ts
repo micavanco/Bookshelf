@@ -34,6 +34,11 @@ export class UserService {
     ).pipe(map(data => this.transformToIUser(data)));
   }
 
+  createUser(username: string, password: string, confirmPassword: string)
+  {
+    return this.httpClient.post(environment.baseUrl+'/v1/users/add?username='+username+'&password='+password+'&confirmPassword='+confirmPassword, {});
+  }
+
   login(username: string, password: string)
   {
     return this.httpClient.post(environment.baseUrl+'/v1/users/login',{username, password})
