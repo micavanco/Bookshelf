@@ -19,11 +19,26 @@ $border-color:#805D3B;
 }
 
 .book{
-  width: 50vw;
+  width: available;
   border: 1px solid #805D3B;
-  display: flex;
+  display: flow-root;
   align-items: center;
   padding: 5px;
+}
+
+.add-book{
+  font-weight: bolder;
+  font-style: italic;
+  color: #453230;
+  margin: 5px;
+  float: right;
+  cursor: pointer;
+  transition: all ease-in-out 0.4s;
+}
+
+.add-book:hover{
+  color: #a5636e;
+  text-decoration: underline;
 }
 
 .search-box-container{

@@ -27,6 +27,8 @@ public class Book{
 
     private String cover;
 
+    private Integer pages_done;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
@@ -35,7 +37,7 @@ public class Book{
 
     public Book(){}
 
-    public Book(String title, String author, Integer year, Integer pages, String language, String publisher, String cover) {
+    public Book(String title, String author, Integer year, Integer pages, String language, String publisher, String cover, Integer pages_done) {
         this.title = title;
         this.author = author;
         this.year = year;
@@ -43,6 +45,7 @@ public class Book{
         this.language = language;
         this.publisher = publisher;
         this.cover = cover;
+        this.pages_done = pages_done;
     }
 
     public User getUser() {
@@ -107,5 +110,13 @@ public class Book{
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public Integer getPages_done() {
+        return pages_done;
+    }
+
+    public void setPages_done(Integer pages_done) {
+        this.pages_done = pages_done;
     }
 }

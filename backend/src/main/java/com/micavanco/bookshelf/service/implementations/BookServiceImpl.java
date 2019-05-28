@@ -57,7 +57,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public boolean addBook(Book book, Long user_id, String user_password) {
         User user = userRepository.getById(user_id);
-        if(user == null || !passwordEncoder.matches(user_password, user.getPassword()))
+        if(user == null || !user_password.equals(user.getPassword()))
             return false;
 
         user.addBook(book);
@@ -93,7 +93,7 @@ public class BookServiceImpl implements BookService {
         client.getOptions().setCssEnabled(false);
         client.getOptions().setJavaScriptEnabled(false);
         try {
-            String searchUrl = "https://www.amazon.com/s?k="+URLEncoder.encode(title, "UTF-8")+"&ref=nb_sb_noss";
+            String searchUrl = "https://www.amazon.com/s?k="+URLEncoder.encode(title, "UTF-8")+"&i=stripbooks-intl-ship&ref=nb_sb_noss";
             HtmlPage page = client.getPage(searchUrl);
 
             List<HtmlElement> items = (List<HtmlElement>) page.getByXPath("//div[@class='s-result-list sg-row']/div");
@@ -105,7 +105,7 @@ public class BookServiceImpl implements BookService {
             {
                 String []book = e.asText().split("\n");
                 HtmlAnchor itemAnchor = ((HtmlAnchor) e.getFirstByXPath(".//a[@class='a-link-normal a-text-normal']"));
-                books.add(new Book(book[0], book[1], 1995, 324, "null", "https://www.amazon.com/"+itemAnchor.getHrefAttribute(), "null"));
+                books.add(new Book(book[0], book[1], 1995, 324, "null", "https://www.amazon.com/"+itemAnchor.getHrefAttribute(), "null", 0));
             }
 
 

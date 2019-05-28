@@ -3,6 +3,7 @@ export interface IBook {
   author: string,
   year: number,
   pages: number,
+  pages_done: number,
   language: string,
   publisher: string,
   cover: string

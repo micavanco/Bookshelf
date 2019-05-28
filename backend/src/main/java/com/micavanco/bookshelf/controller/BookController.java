@@ -6,6 +6,7 @@ import com.micavanco.bookshelf.model.User;
 import com.micavanco.bookshelf.repository.BookRepository;
 import com.micavanco.bookshelf.repository.UserRepository;
 import com.micavanco.bookshelf.service.BookService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,27 +30,23 @@ public class BookController {
     @CrossOrigin(origins = "http://localhost:5000")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<Book> addBook(@RequestParam(value = "title")String title,
-                                        @RequestParam(value = "author")String author,
-                                        @RequestParam(value = "year")Integer year,
-                                        @RequestParam(value = "pages")Integer pages,
-                                        @RequestParam(value = "language")String language,
-                                        @RequestParam(value = "publisher")String publisher,
-                                        @RequestParam(value = "cover")String cover,
-                                        @RequestParam(value = "user_id")Long user_id,
-                                        @RequestParam(value = "user_password")String user_password)
+    public ResponseEntity<Book> addBook(@RequestBody String data)
     {
+        JSONObject user_book = new JSONObject(data);
+        user_book = user_book.getJSONObject("book");
         Book book = new Book();
-        book.setTitle(title);
-        book.setAuthor(author);
-        book.setYear(year);
-        book.setPages(pages);
-        book.setLanguage(language);
-        book.setPublisher(publisher);
-        book.setCover(cover);
+        book.setTitle(user_book.get("title").toString());
+        book.setAuthor(user_book.get("author").toString());
+        book.setYear(new Integer(user_book.get("year").toString()));
+        book.setPages(new Integer(user_book.get("pages").toString()));
+        book.setLanguage(user_book.get("language").toString());
+        book.setPublisher("csiema");
+        book.setCover(user_book.get("cover").toString());
+        book.setPages_done(new Integer(user_book.get("pages_done").toString()));
+        user_book = new JSONObject(data);
         boolean wasCreated;
         try {
-            wasCreated = bookService.addBook(book, user_id, user_password);
+            wasCreated = bookService.addBook(book, new Long(user_book.get("user_id").toString()), user_book.get("user_password").toString());
         }catch (Exception ex)
         {
             return new ResponseEntity<Book>(HttpStatus.INTERNAL_SERVER_ERROR);
