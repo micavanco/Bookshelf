@@ -52,6 +52,7 @@ public class JwtTokenProvider implements Serializable {
 
         return  "Bearer "+Jwts.builder()
                 .setSubject(authentication.getName())
+                .claim("user_id", user.getId())
                 .claim("password", user.getPassword())
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)

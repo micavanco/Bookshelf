@@ -116,7 +116,6 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest)
     {
-        UserDetails user;
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                     loginRequest.getUsername(), loginRequest.getPassword()

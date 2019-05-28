@@ -19,10 +19,9 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     @Transactional
     public List getUserBooks(User user) {
-        Long user_id = user.getId();
         List<Book> books;
         try {
-            books = entityManager.createQuery("SELECT b from Book b where b.user.id=:user_id").setParameter("user_id",user_id).getResultList();
+            books = entityManager.createQuery("SELECT b from Book b where b.user.id=:user_id").setParameter("user_id",user.getId()).getResultList();
         }catch (Exception ex)
         {
             return null;

@@ -72,6 +72,9 @@ public class BookController {
             return new ResponseEntity<List<Book>>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+        if(books == null)
+            return new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
+
         return books.size() > 0 ? new ResponseEntity<List<Book>>(books, HttpStatus.OK)
                 : new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
     }

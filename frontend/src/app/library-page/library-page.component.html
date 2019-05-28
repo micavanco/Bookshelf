@@ -8,12 +8,13 @@
   </div>
 
   <div class="books-container">
-    <div class="book-wrapper">
+
+    <div class="book-wrapper" *ngFor="let book of books">
       <div class="book-title">
-        Modern Java in Action: Lambdas, streams, functional and reactive programming 2nd Edition
+        {{book.title}}
       </div>
       <div class="book-pages">
-        312
+        {{book.pages}}
       </div>
       <div class="book-pages-done">
         0
@@ -23,20 +24,6 @@
       </div>
     </div>
 
-    <div class="book-wrapper">
-      <div class="book-title">
-        Modern Java in Action: Lambdas, streams, functional and reactive programming 2nd Edition
-      </div>
-      <div class="book-pages">
-        312
-      </div>
-      <div class="book-pages-done">
-        0
-      </div>
-      <div class="book-pages-result">
-        312
-      </div>
-    </div>
   </div>
 
   <div class="result-container">

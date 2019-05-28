@@ -2,7 +2,7 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { IUser } from "../interfaces";
 import { environment } from '../../environments/environment'
-import {Observable, ObservableInput} from "rxjs";
+import { Observable } from "rxjs";
 import { map } from 'rxjs/operators'
 import 'rxjs/add/operator/do'
 import 'rxjs/add/operator/shareReplay'

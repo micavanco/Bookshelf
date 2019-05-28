@@ -29,7 +29,7 @@ public class BookServiceImpl implements BookService {
     public List getUserBooks(String username, String user_password) {
         User user = userRepository.getByUsername(username);
 
-        if(user == null || !passwordEncoder.matches(user_password, user.getPassword()))
+        if(user == null || !user_password.equals(user.getPassword()))
             return null;
 
         return bookRepository.getUserBooks(user);

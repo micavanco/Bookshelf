@@ -40,8 +40,6 @@ public class UserServiceImpl implements UserDetailsService {
 
     public boolean removeUser(String username, String password) {
         User user = userRepository.getByUsername(username);
-        System.out.println(password);
-        System.out.println(user.getPassword());
         if(user == null || !password.equals(user.getPassword()))
             return false;
         userRepository.removeUser(user);
