@@ -71,6 +71,13 @@
             <version>0.9.1</version>
         </dependency>
 
+        <!-- Scraping Library -->
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
+            <version>2.19</version>
+        </dependency>
+
     </dependencies>
 
     <build>

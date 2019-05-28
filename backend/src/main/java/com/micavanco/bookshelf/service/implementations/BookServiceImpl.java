@@ -1,5 +1,9 @@
 package com.micavanco.bookshelf.service.implementations;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.micavanco.bookshelf.model.Book;
 import com.micavanco.bookshelf.model.User;
 import com.micavanco.bookshelf.repository.BookRepository;
@@ -9,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 @Service("BookService")
 public class BookServiceImpl implements BookService {
@@ -75,5 +84,35 @@ public class BookServiceImpl implements BookService {
             return null;
 
         return bookRepository.getUserBooksByTitle(user, title);
+    }
+
+    @Override
+    public List searchBooks(String title) {
+        List<Book> books = new ArrayList<>();
+        WebClient client = new WebClient();
+        client.getOptions().setCssEnabled(false);
+        client.getOptions().setJavaScriptEnabled(false);
+        try {
+            String searchUrl = "https://www.amazon.com/s?k="+URLEncoder.encode(title, "UTF-8")+"&ref=nb_sb_noss";
+            HtmlPage page = client.getPage(searchUrl);
+
+            List<HtmlElement> items = (List<HtmlElement>) page.getByXPath("//div[@class='s-result-list sg-row']/div");
+            if(items.isEmpty())
+                return null;
+
+
+            for(HtmlElement e : items)
+            {
+                String []book = e.asText().split("\n");
+                HtmlAnchor itemAnchor = ((HtmlAnchor) e.getFirstByXPath(".//a[@class='a-link-normal a-text-normal']"));
+                books.add(new Book(book[0], book[1], 1995, 324, "null", "https://www.amazon.com/"+itemAnchor.getHrefAttribute(), "null"));
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return books;
     }
 }

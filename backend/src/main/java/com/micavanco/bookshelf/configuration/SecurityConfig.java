@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().sameOrigin() // to enable H2 Database
                 .and()
                 .authorizeRequests()
-                .antMatchers(SIGN_UP_URL, SIGN_IN_URL)
+                .antMatchers(SIGN_UP_URL, SIGN_IN_URL, SEARCH_URL)
                 .permitAll()
                 .anyRequest()
                 .authenticated();

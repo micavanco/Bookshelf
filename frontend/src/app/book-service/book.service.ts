@@ -23,4 +23,9 @@ export class BookService {
     return this.httpClient.get<Array<IBook>>(environment.baseUrl+'/v1/books/user?username='+localStorage.getItem('username')+
       "&user_password="+jwt_decode(localStorage.getItem('id_token')).password);
   }
+
+  searchBooks(title: string)
+  {
+    return this.httpClient.get<Array<IBook>>(environment.baseUrl+'/v1/books/search?title='+title);
+  }
 }

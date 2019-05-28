@@ -12,4 +12,5 @@ public interface BookService {
     boolean addBook(Book book, Long user_id, String user_password);
     boolean deleteUserBookByTitle(Long user_id, String title, String user_password);
     List getUserBooksByTitle(String username, String title, String user_password);
+    List searchBooks(String title);
 }

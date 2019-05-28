@@ -80,6 +80,26 @@ public class BookController {
     }
 
     @CrossOrigin(origins = "http://localhost:5000")
+    //@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<List<Book>> searchBooks(@RequestParam(value = "title")String title)
+    {
+        List<Book> books;
+        try {
+            books = bookService.searchBooks(title);
+        }catch (Exception ex)
+        {
+            return new ResponseEntity<List<Book>>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if(books == null)
+            return new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
+
+
+        return books.size() > 0 ? new ResponseEntity<List<Book>>(books, HttpStatus.OK)
+                : new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5000")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @RequestMapping(value = "/user/title", method = RequestMethod.GET)
     public ResponseEntity<List<Book>> getUserBooksByTitle(
