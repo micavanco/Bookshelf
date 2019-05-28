@@ -39,6 +39,11 @@ export class UserService {
     return this.httpClient.post(environment.baseUrl+'/v1/users/add?username='+username+'&password='+password+'&confirmPassword='+confirmPassword, {});
   }
 
+  deleteUser(username: string, password: string)
+  {
+    return this.httpClient.delete(environment.baseUrl+'/v1/users/delete?username='+username+'&password='+password);
+  }
+
   login(username: string, password: string)
   {
     return this.httpClient.post(environment.baseUrl+'/v1/users/login',{username, password})

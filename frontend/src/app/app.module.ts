@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { SearchBoxComponent } from './search-page/search-box/search-box.component';
 import { ResultBoxComponent } from './search-page/result-box/result-box.component';
 import { UserService } from "./user-service/user.service";
-import { HttpClientModule } from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { UserBoxComponent } from './user-box/user-box.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { BottomBarComponent } from './bottom-bar/bottom-bar.component';
@@ -39,7 +39,11 @@ import { AccountPageComponent } from './account-page/account-page.component';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [UserService, AuthInterceptorService],
+  providers: [UserService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptorService,
+    multi: true,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -50,16 +50,9 @@ public class JwtTokenProvider implements Serializable {
 
         Date expiredDate = new Date(now.getTime()+TOKEN_EXPIRATION_TIME);
 
-        String userId = Long.toString(user.getId());
-
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("id", (Long.toString(user.getId())));
-        claims.put("username", user.getUsername());
-        claims.put("password", user.getPassword());
-
-        return  Jwts.builder()
+        return  "Bearer "+Jwts.builder()
                 .setSubject(authentication.getName())
-                //.setClaims(claims)
+                .claim("password", user.getPassword())
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .setIssuedAt(now)
