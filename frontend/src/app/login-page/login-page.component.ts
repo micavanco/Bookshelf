@@ -13,9 +13,11 @@ export class LoginPageComponent {
 
   form : FormGroup;
   error: boolean;
+  isLoading: boolean;
 
   constructor(private userService: UserService, private fb:FormBuilder, private router: Router) {
     this.error = false;
+    this.isLoading = false;
     this.form = this.fb.group({
       username: ['',Validators.required],
       password: ['',Validators.required]
@@ -27,11 +29,14 @@ export class LoginPageComponent {
     const val = this.form.value;
     if(val.username && val.password)
     {
-      this.userService.login(val.username, val.password).subscribe(()=>{
-        this.error = false;
-        this.router.navigateByUrl('/');
-        },
-        error => this.error = true);
+      this.isLoading = true;
+      this.userService.login(val.username, val.password).subscribe(()=>{},
+        error => this.error = true,
+        () => {
+          this.error = false;
+          this.isLoading = false;
+          this.router.navigateByUrl('/');
+        });
     }
   }
 

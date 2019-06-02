@@ -20,8 +20,9 @@ export class LibraryPageComponent implements OnInit {
     this.bookService.getUserBooks().subscribe(data => this.books = data,
       error1 => error1,
       () => {
-        for(let i = 0; i < this.books.length; i++)
-          this.isEditable.push(false)
+        if(this.books != null)
+          for(let i = 0; i < this.books.length; i++)
+            this.isEditable.push(false)
       }
         );
 
@@ -32,9 +33,22 @@ export class LibraryPageComponent implements OnInit {
     this.isEditable[e.target.id] = true;
   }
 
+  onAddPagesNumber(e: any)
+  {
+    this.isEditable[e.target.parentElement.id] = true;
+  }
+
   onInputBlur(e: any)
   {
-    this.isEditable[e.target.parentElement.id] = false;
+    if(Number(e.target.value) >= 0 && Number(e.target.value) <= this.books[e.target.parentElement.id].pages_done)
+    {
+      this.isEditable[e.target.parentElement.id] = false;
+      this.books[e.target.parentElement.id].pages_done = Number(e.target.value);
+      this.bookService.updateBook(this.books[e.target.parentElement.id]).subscribe(()=>{},
+        error1 => error1,
+        () => this.ngOnInit()
+      );
+    }
   }
 
 }

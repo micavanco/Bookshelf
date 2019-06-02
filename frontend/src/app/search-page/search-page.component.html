@@ -7,7 +7,16 @@
 
   <div class="books-container">
     <div class="loading" *ngIf="isLoading"><span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span></div>
-    <div class="book" *ngFor="let book of books; let i = index">{{book.title}} <div id="{{i}}" class="add-book" (click)="onAdd($event)">Add</div></div>
+    <div class="book" *ngFor="let book of books; let i = index">{{book.title}}
+      <div id="{{i}}" class="add-book" (click)="onAdd($event)" *ngIf="!isLoading2[i]">
+        <span *ngIf="!isChecked[i]">Add</span>
+        <span *ngIf="isChecked[i]">
+          <span *ngIf="successLoading[i]" class="successLoading">Added to library</span>
+          <span *ngIf="!successLoading[i]" class="not-successLoading">This book is already in Library</span>
+        </span>
+      </div>
+      <div class="loading2" *ngIf="isLoading2[i]"><span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span></div>
+    </div>
   </div>
 
 </div>

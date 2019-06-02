@@ -33,16 +33,7 @@ public class BookController {
     public ResponseEntity<Book> addBook(@RequestBody String data)
     {
         JSONObject user_book = new JSONObject(data);
-        user_book = user_book.getJSONObject("book");
-        Book book = new Book();
-        book.setTitle(user_book.get("title").toString());
-        book.setAuthor(user_book.get("author").toString());
-        book.setYear(new Integer(user_book.get("year").toString()));
-        book.setPages(new Integer(user_book.get("pages").toString()));
-        book.setLanguage(user_book.get("language").toString());
-        book.setPublisher(user_book.get("publisher").toString());
-        book.setCover(user_book.get("cover").toString());
-        book.setPages_done(new Integer(user_book.get("pages_done").toString()));
+        Book book = createBookfromJSON(user_book);
         user_book = new JSONObject(data);
         boolean wasCreated;
         try {
@@ -52,6 +43,25 @@ public class BookController {
             return new ResponseEntity<Book>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return wasCreated ? new ResponseEntity<Book>(HttpStatus.CREATED):
+                new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5000")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseEntity<Book> updateBook(@RequestBody String data)
+    {
+        JSONObject user_book = new JSONObject(data);
+        Book book = createBookfromJSON(user_book);
+        user_book = new JSONObject(data);
+        boolean wasUpdated;
+        try {
+            wasUpdated = bookService.updateBook(book, new Long(user_book.get("user_id").toString()), user_book.get("user_password").toString());
+        }catch (Exception ex)
+        {
+            return new ResponseEntity<Book>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return wasUpdated ? new ResponseEntity<Book>(HttpStatus.OK):
                 new ResponseEntity<Book>(HttpStatus.BAD_REQUEST);
     }
 
@@ -186,6 +196,21 @@ public class BookController {
 
         return books.size() > 0 ? new ResponseEntity<List<Book>>(books, HttpStatus.OK)
                 : new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
+    }
+
+    private Book createBookfromJSON(JSONObject user_book)
+    {
+        user_book = user_book.getJSONObject("book");
+        Book book = new Book();
+        book.setTitle(user_book.get("title").toString());
+        book.setAuthor(user_book.get("author").toString());
+        book.setYear(new Integer(user_book.get("year").toString()));
+        book.setPages(new Integer(user_book.get("pages").toString()));
+        book.setLanguage(user_book.get("language").toString());
+        book.setPublisher(user_book.get("publisher").toString());
+        book.setCover(user_book.get("cover").toString());
+        book.setPages_done(new Integer(user_book.get("pages_done").toString()));
+        return book;
     }
 
 }

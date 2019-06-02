@@ -64,8 +64,24 @@ public class BookServiceImpl implements BookService {
         if(user == null || !user_password.equals(user.getPassword()))
             return false;
 
+        List<Book> books = getUserBooksByTitle(user.getUsername(), book.getTitle(), user_password);
+
+        if(books != null && books.get(0).getTitle().trim().equals(book.getTitle().trim()))
+            return false;
+
         user.addBook(book);
         userRepository.addUser(user);
+        return true;
+    }
+
+    @Override
+    public boolean updateBook(Book book, Long user_id, String user_password) {
+        User user = userRepository.getById(user_id);
+        if(user == null || !user_password.equals(user.getPassword()))
+            return false;
+
+        book.setUser(user);
+        bookRepository.updateBook(book);
         return true;
     }
 
@@ -84,7 +100,7 @@ public class BookServiceImpl implements BookService {
     public List<Book> getUserBooksByTitle(String username, String title, String user_password) {
         User user = userRepository.getByUsername(username);
 
-        if(user == null || !passwordEncoder.matches(user_password, user.getPassword()))
+        if(user == null || !user_password.equals(user.getPassword()))
             return null;
 
         return bookRepository.getUserBooksByTitle(user, title);

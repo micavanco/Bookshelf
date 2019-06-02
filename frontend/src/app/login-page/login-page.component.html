@@ -5,7 +5,8 @@
     <label for="password">Password:</label><br/>
     <input type="password" id="password" formControlName="password"/><br/>
     <div *ngIf="error" class="error">Invalid password or username</div>
-    <button (click)="login()">Login</button>
+    <button (click)="login()" *ngIf="!isLoading">Login</button>
+    <div class="loading" *ngIf="isLoading"><span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span></div>
   </form>
   <span routerLink="/register">Not have account yet</span>
 </div>

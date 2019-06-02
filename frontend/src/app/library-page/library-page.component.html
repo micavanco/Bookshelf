@@ -16,19 +16,21 @@
         </tr>
       </thead>
     </table>
-    <table>
-      <div class="books-container">
-        <tr *ngFor="let book of books; let i = index">
-          <td>{{book.title}}</td>
-          <td class="pages-column">{{book.pages}}</td>
-          <td id="{{i}}" class="pages-column page-click" (click)="onAddPages($event)">
-            <span *ngIf="!isEditable[i]">0</span>
-            <input type="number" *ngIf="isEditable[i]" class="pages-input" (blur)="onInputBlur($event)"/></td>
-          <td class="pages-column">0</td>
-        </tr>
-      </div>
 
-    </table>
+    <div class="books-container">
+      <table>
+
+          <tr *ngFor="let book of books; let i = index">
+            <td>{{book.title}}</td>
+            <td class="pages-column">{{book.pages}}</td>
+            <td id="{{i}}" class="pages-column page-click" (click)="onAddPages($event)">
+              <span *ngIf="!isEditable[i]" (click)="onAddPagesNumber($event)">{{book.pages_done}}</span>
+              <input type="number" *ngIf="isEditable[i]" class="pages-input" (blur)="onInputBlur($event)"/></td>
+            <td class="pages-column">{{book.pages - book.pages_done}}</td>
+          </tr>
+
+      </table>
+    </div>
 
   </div>
 

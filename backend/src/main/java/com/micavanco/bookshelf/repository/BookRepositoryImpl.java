@@ -67,6 +67,26 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     @Transactional
+    public void updateBook(Book user_book) {
+        try {
+            List<Book> book = entityManager.createQuery("SELECT b from Book b where b.title=:title").setParameter("title", user_book.getTitle()).getResultList();
+            book.get(0).setTitle(user_book.getTitle());
+            book.get(0).setUser(user_book.getUser());
+            book.get(0).setAuthor(user_book.getAuthor());
+            book.get(0).setPublisher(user_book.getPublisher());
+            book.get(0).setPages(user_book.getPages());
+            book.get(0).setPages_done(user_book.getPages_done());
+            book.get(0).setCover(user_book.getCover());
+            book.get(0).setYear(user_book.getYear());
+            book.get(0).setLanguage(user_book.getLanguage());
+        }catch (Exception ex)
+        {
+
+        }
+    }
+
+    @Override
+    @Transactional
     public void deleteUserBookByTitle(User user, String title) {
         List<Book> books = entityManager.createQuery("SELECT b from Book b where b.user.id=:user_id and b.title=:title")
                 .setParameter("user_id", user.getId())
@@ -84,7 +104,7 @@ public class BookRepositoryImpl implements BookRepository {
     public List<Book> getUserBooksByTitle(User user, String title) {
         List<Book> books = entityManager.createQuery("select b from Book b where b.user.id=:user_id and b.title=:title")
                 .setParameter("user_id", user.getId())
-                .setParameter("title", title+"%")
+                .setParameter("title", title)
                 .getResultList();
 
         if(books.size() == 0)

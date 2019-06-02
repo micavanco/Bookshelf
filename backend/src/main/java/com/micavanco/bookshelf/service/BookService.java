@@ -14,4 +14,5 @@ public interface BookService {
     List getUserBooksByTitle(String username, String title, String user_password);
     List searchBooks(String title);
     Book getBookDetails(String url);
+    boolean updateBook(Book book, Long user_id, String user_password);
 }

@@ -10,6 +10,7 @@ public interface BookRepository {
     List getAll();
     List getBooksByTitle(String title);
     void addBook(Book book);
+    void updateBook(Book book);
     void deleteUserBookByTitle(User user, String title);
     List getUserBooksByTitle(User user, String title);
 }

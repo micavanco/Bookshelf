@@ -68,6 +68,21 @@ $border-color:#805D3B;
   color: #FFBA75;
 }
 
+.loading2{
+  text-align: center;
+  font-size: 56px;
+  font-style: italic;
+  color: #FFBA75;
+}
+
+.successLoading{
+  background: rgba(156,156,156,0.51);
+}
+
+.not-successLoading{
+  background: rgba(156,94,82,0.51);
+}
+
 .dot1{
   animation: dot1 1.5s linear 0s infinite alternate;
 }
