@@ -6,6 +6,7 @@
   </div>
 
   <div class="books-container">
+    <div class="loading" *ngIf="isLoading"><span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span></div>
     <div class="book" *ngFor="let book of books; let i = index">{{book.title}} <div id="{{i}}" class="add-book" (click)="onAdd($event)">Add</div></div>
   </div>
 

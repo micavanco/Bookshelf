@@ -40,7 +40,7 @@ public class BookController {
         book.setYear(new Integer(user_book.get("year").toString()));
         book.setPages(new Integer(user_book.get("pages").toString()));
         book.setLanguage(user_book.get("language").toString());
-        book.setPublisher("csiema");
+        book.setPublisher(user_book.get("publisher").toString());
         book.setCover(user_book.get("cover").toString());
         book.setPages_done(new Integer(user_book.get("pages_done").toString()));
         user_book = new JSONObject(data);
@@ -94,6 +94,25 @@ public class BookController {
 
         return books.size() > 0 ? new ResponseEntity<List<Book>>(books, HttpStatus.OK)
                 : new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
+    }
+
+    @CrossOrigin(origins = "http://localhost:5000")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @RequestMapping(value = "/getBookDetails", method = RequestMethod.POST)
+    public ResponseEntity<Book> getBookDetail(@RequestBody String url)
+    {
+        Book book;
+        try {
+            book = bookService.getBookDetails(url);
+        }catch (Exception ex)
+        {
+            return new ResponseEntity<Book>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if(book == null)
+            return new ResponseEntity<Book>(HttpStatus.NO_CONTENT);
+
+
+        return new ResponseEntity<Book>(book, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "http://localhost:5000")

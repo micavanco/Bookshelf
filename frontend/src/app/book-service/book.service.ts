@@ -28,4 +28,9 @@ export class BookService {
   {
     return this.httpClient.get<Array<IBook>>(environment.baseUrl+'/v1/books/search?title='+title);
   }
+
+  getBookDetails(url: string)
+  {
+    return this.httpClient.post<IBook>(environment.baseUrl+'/v1/books/getBookDetails', url);
+  }
 }

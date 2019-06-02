@@ -60,3 +60,47 @@ $border-color:#805D3B;
   outline: none;
   background: rgba(178, 36, 28, 0.1);;
 }
+
+.loading{
+  text-align: center;
+  font-size: 96px;
+  font-style: italic;
+  color: #FFBA75;
+}
+
+.dot1{
+  animation: dot1 1.5s linear 0s infinite alternate;
+}
+
+.dot2{
+  animation: dot2 1.5s linear 0.5s infinite alternate;
+}
+
+.dot3{
+  animation: dot1 1.5s linear 1s infinite alternate;
+}
+
+
+@keyframes dot1 {
+  0%   {color: rgba(255, 186, 117, 1)}
+  25%  {color: rgba(255, 186, 117, 0.75)}
+  50%  {color: rgba(255, 186, 117, 0.5)}
+  75%  {color: rgba(255, 186, 117, 0.25)}
+  100% {color: rgba(255, 186, 117, 0)}
+}
+
+@keyframes dot2 {
+  0%   {color: rgba(255, 186, 117, 0)}
+  25%  {color: rgba(255, 186, 117, 0.25)}
+  50%  {color: rgba(255, 186, 117, 0.5)}
+  75%  {color: rgba(255, 186, 117, 0.75)}
+  100% {color: rgba(255, 186, 117, 1)}
+}
+
+@keyframes dot3 {
+  0%   {color: rgba(255, 186, 117, 0.75)}
+  25%  {color: rgba(255, 186, 117, 1)}
+  50%  {color: rgba(255, 186, 117, 0)}
+  75%  {color: rgba(255, 186, 117, 0.25)}
+  100% {color: rgba(255, 186, 117, 0.5)}
+}

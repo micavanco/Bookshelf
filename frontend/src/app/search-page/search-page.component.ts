@@ -12,8 +12,13 @@ import {Router} from "@angular/router";
 export class SearchPageComponent implements OnInit {
 
   books: Array<IBook>;
+  isLoading: boolean;
+  book: IBook;
 
-  constructor(private bookService: BookService, private userService: UserService, private router: Router) { }
+  constructor(private bookService: BookService, private userService: UserService, private router: Router) {
+    this.isLoading = false;
+    this.books = [];
+  }
 
   ngOnInit() {
   }
@@ -21,7 +26,14 @@ export class SearchPageComponent implements OnInit {
   onSearch(event: any)
   {
     if(event.target.value.length > 0)
-      this.bookService.searchBooks(event.target.value).subscribe(data => this.books = data);
+    {
+      this.isLoading = true;
+      this.books.length = 0;
+      this.bookService.searchBooks(event.target.value).subscribe(data => this.books = data,
+          error1 => error1,
+        () => this.isLoading = false);
+    }
+
   }
 
   onAdd(event: any)
@@ -33,8 +45,9 @@ export class SearchPageComponent implements OnInit {
       {
         event.target.textContent = "Added to library";
         event.target.parentElement.style.background = "rgba(156,156,156,0.51)";
-        console.log(this.books[event.target.id]);
-        this.bookService.addBook(this.books[event.target.id]).subscribe();
+        this.bookService.getBookDetails(this.books[event.target.id].publisher).subscribe(data => this.book = data,
+            error1 => error1,
+          () => this.bookService.addBook(this.book).subscribe());
       }
     }
   }
