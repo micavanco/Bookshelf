@@ -10,11 +10,31 @@ import {IBook} from "../interfaces";
 export class LibraryPageComponent implements OnInit {
 
   books: Array<IBook>;
+  isEditable: Array<boolean>;
 
-  constructor(private bookService: BookService) { }
+  constructor(private bookService: BookService) {
+    this.isEditable = [];
+  }
 
   ngOnInit() {
-    this.bookService.getUserBooks().subscribe(data => this.books = data);
+    this.bookService.getUserBooks().subscribe(data => this.books = data,
+      error1 => error1,
+      () => {
+        for(let i = 0; i < this.books.length; i++)
+          this.isEditable.push(false)
+      }
+        );
+
+  }
+
+  onAddPages(e: any)
+  {
+    this.isEditable[e.target.id] = true;
+  }
+
+  onInputBlur(e: any)
+  {
+    this.isEditable[e.target.parentElement.id] = false;
   }
 
 }

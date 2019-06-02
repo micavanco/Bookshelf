@@ -2,52 +2,71 @@
 
   <div class="title-container">
     <h1>My Books</h1>
-    <div>Pages</div>
-    <div>Already<br/>read<br/>pages</div>
-    <div>Pages left</div>
   </div>
 
-  <div class="books-container">
+  <div class="table-container">
 
-    <div class="book-wrapper" *ngFor="let book of books">
-      <div class="book-title">
-        {{book.title}}
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th class="pages-column">Pages</th>
+          <th class="pages-column">Already read pages</th>
+          <th class="pages-column pages-column-top">Pages left</th>
+        </tr>
+      </thead>
+    </table>
+    <table>
+      <div class="books-container">
+        <tr *ngFor="let book of books; let i = index">
+          <td>{{book.title}}</td>
+          <td class="pages-column">{{book.pages}}</td>
+          <td id="{{i}}" class="pages-column page-click" (click)="onAddPages($event)">
+            <span *ngIf="!isEditable[i]">0</span>
+            <input type="number" *ngIf="isEditable[i]" class="pages-input" (blur)="onInputBlur($event)"/></td>
+          <td class="pages-column">0</td>
+        </tr>
       </div>
-      <div class="book-pages">
-        {{book.pages}}
-      </div>
-      <div class="book-pages-done">
-        0
-      </div>
-      <div class="book-pages-result">
-        312
-      </div>
-    </div>
+
+    </table>
 
   </div>
 
   <div class="result-container">
-    <div class="book-pages">
-      312
-    </div>
-    <div class="book-pages-done">
-      0
-    </div>
-    <div class="book-pages-result">
-      312
-    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <td class="no-border"></td>
+          <td class="no-border"></td>
+          <td class="pages-column result-pages">30</td>
+          <td class="pages-column result-pages pages-column-top">30</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Start day</th>
+          <th>End day</th>
+          <th class="pages-column">Pages per day</th>
+          <th class="pages-column pages-column-top">Pages per month</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td><input type="date" /></td>
+          <td><input type="date" /></td>
+          <td class="pages-column">30</td>
+          <td class="pages-column pages-column-top">30</td>
+        </tr>
+      </tbody>
+
+    </table>
+
   </div>
 
-  <div class="calculate-container">
-    <label>Start day <input type="date" /></label>
-    <label>End day  <input type="date" /></label>
-    <div class="book-pages">
-      <span>Pages per day</span>
-      <span>30</span>
-    </div>
-    <div class="book-pages">
-      <span>Pages per month</span>
-      <span>30</span>
-    </div>
-  </div>
 </div>

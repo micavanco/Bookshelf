@@ -9,95 +9,113 @@
   padding: 20px;
 }
 
-.title-container{
-  display: flow;
-  width: 100%;
-  max-width: 1176px;
-}
-
-.title-container > div{
-  font-size: 14px;
-  height: 57px;
-  width: 100%;
-  max-width: 102px;
-  margin-left: 16px;
-  float: right;
-  text-align: center;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.books-container{
+.table-container{
   overflow: paged-y;
   width: 100%;
   max-width: 1176px;
   height: 300px;
   display: flex;
   flex-direction: column;
+  -webkit-box-shadow: inset 1px -4px 18px -12px rgba(0,0,0,1);
+  -moz-box-shadow: inset 1px -4px 18px -12px rgba(0,0,0,1);
+  box-shadow: inset 1px -4px 18px -12px rgba(0,0,0,1);
+}
+
+.books-container{
+  overflow: paged-y;
+  width: 100%;
+  max-width: 1176px;
+  max-height: 227px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
-  overflow-x: hidden;
 }
 
-.book-wrapper{
-  display: flex;
-  flex-direction: row;
-}
-
-.book-title{
-  height: 60px;
-  border: 1px solid black;
-  max-width: 769px;
+table{
+  border-collapse: collapse;
   width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  padding: 18px 10px;
 }
 
-.book-pages, .book-pages-done, .book-pages-result{
-  height: 60px;
-  width: 100%;
-  max-width: 102px;
-  margin-left: 16px;
-  border: 1px solid black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.pages-column{
+  width: 65px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.pages-column-top{
+  width: 74px;
+}
+
+.pages-input{
+  width: 45px;
+  text-align: center;
+  outline: #FFBA75;
+}
+
+.page-click{
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.page-click:hover{
+   background: rgba(0, 0, 0, 0.08);
+}
+
+.page-click:active{
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .result-container{
   overflow: paged-y;
   width: 100%;
   max-width: 1176px;
-  height: 60px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-end;
 }
 
-.result-container > div{
+.result-pages{
   color: #FFBA75;
 }
 
-.calculate-container{
-  overflow: paged-y;
-  width: 100%;
-  max-width: 1176px;
-  height: 60px;
-  display: flow-root;
+.no-border{
+  border: none;
 }
 
-.calculate-container > div{
-   float: right;
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
-  font-size: 14px;
-  text-align: center;
-  border: none;
- }
-
-.calculate-container > label{
-  margin-left: 20px;
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+  overflow: visible;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #e1e1e1;
+  border: 0px none #ffffff;
+  border-radius: 48px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #bbbbbb;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #000000;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+  position: absolute;
+}
+::-webkit-scrollbar-track:hover {
+  background: transparent;
+}
+::-webkit-scrollbar-track:active {
+  background: transparent;
 }
