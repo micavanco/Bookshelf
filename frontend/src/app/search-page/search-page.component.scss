@@ -62,60 +62,39 @@ $border-color:#805D3B;
 }
 
 .loading{
-  text-align: center;
-  font-size: 96px;
-  font-style: italic;
-  color: #FFBA75;
+  height: content-box;
+  width: content-box;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
 }
 
 .loading2{
-  text-align: center;
-  font-size: 56px;
-  font-style: italic;
-  color: #FFBA75;
-}
-
-.successLoading{
-  background: rgba(156,156,156,0.51);
-}
-
-.not-successLoading{
-  background: rgba(156,94,82,0.51);
+  margin: 10px;
+  height: 10px;
+  width: 30px;
+  float: right;
+  display: flex;
 }
 
 .dot1{
-  animation: dot1 1.5s linear 0s infinite alternate;
+  background: rgba(255, 186, 117, 1);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
 }
 
 .dot2{
-  animation: dot2 1.5s linear 0.5s infinite alternate;
+  background: rgba(255, 186, 117, 1);
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
 }
 
 .dot3{
-  animation: dot1 1.5s linear 1s infinite alternate;
+  background: rgba(255, 186, 117, 1);
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
 }
 
-
-@keyframes dot1 {
-  0%   {color: rgba(255, 186, 117, 1)}
-  25%  {color: rgba(255, 186, 117, 0.75)}
-  50%  {color: rgba(255, 186, 117, 0.5)}
-  75%  {color: rgba(255, 186, 117, 0.25)}
-  100% {color: rgba(255, 186, 117, 0)}
-}
-
-@keyframes dot2 {
-  0%   {color: rgba(255, 186, 117, 0)}
-  25%  {color: rgba(255, 186, 117, 0.25)}
-  50%  {color: rgba(255, 186, 117, 0.5)}
-  75%  {color: rgba(255, 186, 117, 0.75)}
-  100% {color: rgba(255, 186, 117, 1)}
-}
-
-@keyframes dot3 {
-  0%   {color: rgba(255, 186, 117, 0.75)}
-  25%  {color: rgba(255, 186, 117, 1)}
-  50%  {color: rgba(255, 186, 117, 0)}
-  75%  {color: rgba(255, 186, 117, 0.25)}
-  100% {color: rgba(255, 186, 117, 0.5)}
-}

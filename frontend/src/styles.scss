@@ -33,3 +33,21 @@ a {
   overflow: auto;
   display: block;
 }
+
+@keyframes dot1 {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dot2 {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

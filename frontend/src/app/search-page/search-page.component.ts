@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterContentInit, Component} from '@angular/core';
 import { IBook } from "../interfaces";
 import { BookService } from "../book-service/book.service";
-import {UserService} from "../user-service/user.service";
-import {Router} from "@angular/router";
+import { UserService } from "../user-service/user.service";
+import { Router} from "@angular/router";
 
 @Component({
   selector: 'app-search-page',
   templateUrl: './search-page.component.html',
   styleUrls: ['./search-page.component.scss']
 })
-export class SearchPageComponent implements OnInit {
+export class SearchPageComponent{
 
   books: Array<IBook>;
   isLoading: boolean;
@@ -17,6 +17,9 @@ export class SearchPageComponent implements OnInit {
   successLoading: Array<boolean>;
   isChecked: Array<boolean>;
   book: IBook;
+  ref: any;
+  id: number;
+  i: number;
 
   constructor(private bookService: BookService, private userService: UserService, private router: Router) {
     this.isLoading = false;
@@ -24,9 +27,7 @@ export class SearchPageComponent implements OnInit {
     this.successLoading = [];
     this.isChecked = [];
     this.books = [];
-  }
-
-  ngOnInit() {
+    this.i = 0;
   }
 
   onSearch(event: any)
@@ -35,6 +36,8 @@ export class SearchPageComponent implements OnInit {
     {
       this.isLoading = true;
       this.books.length = 0;
+      this.successLoading.length = 0;
+      this.isChecked.length = 0;
       this.bookService.searchBooks(event.target.value).subscribe(data => this.books = data,
           error1 => error1,
         () => {
@@ -59,22 +62,26 @@ export class SearchPageComponent implements OnInit {
     if(this.userService.isLoggedOut())
       this.router.navigate(['/login']);
     else{
-      if(event.target.textContent !== "Added to library")
+      if(event.target.textContent === "Add")
       {
-        this.isLoading2[event.target.parentElement.id] = true;
-        this.bookService.getBookDetails(this.books[event.target.parentElement.id].publisher).subscribe(data => this.book = data,
+        this.ref = event.target.parentElement.parentElement;
+        this.id = event.target.parentElement.id;
+        this.isLoading2[this.id] = true;
+        this.bookService.getBookDetails(this.books[this.id].publisher).subscribe(data => this.book = data,
             error1 => error1,
           () => {
               this.bookService.addBook(this.book).subscribe(() => {},
                 error1 => {
-                  this.isLoading2[event.target.parentElement.id] = false;
-                  this.successLoading[event.target.parentElement.id] = false;
-                  this.isChecked[event.target.parentElement.id] = true;
+                  this.ref.style.background = "rgba(156,94,82,0.51)";
+                  this.isLoading2[this.id] = false;
+                  this.successLoading[this.id] = false;
+                  this.isChecked[this.id] = true;
                 },
                 () => {
-                  this.isLoading2[event.target.parentElement.id] = false;
-                  this.successLoading[event.target.parentElement.id] = true;
-                  this.isChecked[event.target.parentElement.id] = true;
+                  this.ref.style.background = "rgba(156,156,156,0.51)";
+                  this.isLoading2[this.id] = false;
+                  this.successLoading[this.id] = true;
+                  this.isChecked[this.id] = true;
                 });
           });
       }

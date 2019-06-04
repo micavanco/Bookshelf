@@ -58,21 +58,35 @@ span:hover
 }
 
 .loading{
-  text-align: center;
-  font-size: 56px;
-  font-style: italic;
-  color: #FFBA75;
+  margin: 10px;
+  height: 20px;
+  width: content-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dot1{
+  background: rgba(255, 186, 117, 1);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
   animation: dot1 1.5s linear 0s infinite alternate;
 }
 
 .dot2{
+  background: rgba(255, 186, 117, 1);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
   animation: dot2 1.5s linear 0.5s infinite alternate;
 }
 
 .dot3{
+  background: rgba(255, 186, 117, 1);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
   animation: dot1 1.5s linear 1s infinite alternate;
 }
 
