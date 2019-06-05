@@ -21,7 +21,7 @@ public class BookRepositoryImpl implements BookRepository {
     public List getUserBooks(User user) {
         List<Book> books;
         try {
-            books = entityManager.createQuery("SELECT b from Book b where b.user.id=:user_id").setParameter("user_id",user.getId()).getResultList();
+            books = entityManager.createQuery("SELECT b from Book b where b.user.id=:user_id order by b.title").setParameter("user_id",user.getId()).getResultList();
         }catch (Exception ex)
         {
             return null;

@@ -40,7 +40,7 @@ export class LibraryPageComponent implements OnInit {
 
   onInputBlur(e: any)
   {
-    if(Number(e.target.value) >= 0 && Number(e.target.value) <= this.books[e.target.parentElement.id].pages_done)
+    if(Number(e.target.value) >= 0 && Number(e.target.value) <= this.books[e.target.parentElement.id].pages)
     {
       this.isEditable[e.target.parentElement.id] = false;
       this.books[e.target.parentElement.id].pages_done = Number(e.target.value);

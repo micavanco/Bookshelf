@@ -50,6 +50,11 @@ export class SearchPageComponent{
               this.isChecked.push(false);
             for(let i = 0; i < this.books.length; i++)
               this.successLoading.push(false);
+          }else
+          {
+            this.books = [];
+            this.successLoading = [];
+            this.isChecked = [];
           }
 
         });

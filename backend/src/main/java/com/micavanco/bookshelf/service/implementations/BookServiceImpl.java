@@ -1,5 +1,6 @@
 package com.micavanco.bookshelf.service.implementations;
 
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service("BookService")
 public class BookServiceImpl implements BookService {
@@ -148,8 +150,9 @@ public class BookServiceImpl implements BookService {
 
             List<HtmlElement> items = (List<HtmlElement>) page.getByXPath("//div[@class='content']/ul/li");
             HtmlElement items2 = page.getFirstByXPath("//a[@class='a-link-normal contributorNameID']");
+            HtmlElement items22 = page.getFirstByXPath("//a[@class='a-link-normal']");
             HtmlElement items3 = page.getFirstByXPath("//h1[@id='title']");
-            HtmlElement items4 = page.getFirstByXPath("//div[@class='a-fixed-left-grid-col a-col-left']/div/div/span/div/img");
+            HtmlElement items4 = page.getFirstByXPath("//div[@id='booksImageBlock_feature_div']");
 
             if(items.isEmpty())
                 return null;
@@ -164,15 +167,36 @@ public class BookServiceImpl implements BookService {
 
 
             book.setPages_done(0);
-            book.setPages(new Integer(data.get("Paperback").split(" ")[1]));
+            if(data.get("Paperback") != null)
+                book.setPages(new Integer(data.get("Paperback").trim().split(" ")[0]));
+            else if(data.get("Hardcover") != null)
+                book.setPages(new Integer(data.get("Hardcover").trim().split(" ")[0]));
+            else if(data.get("Print Length") != null)
+                book.setPages(new Integer(data.get("Print Length").trim().split(" ")[0]));
+            else
+                book.setPages(new Integer(data.get("Spiral-bound").trim().split(" ")[0]));
             String[] pub = data.get("Publisher").split("\\(");
             book.setPublisher(pub[0].trim());
-            book.setYear(new Integer(pub[1].substring(0, pub[1].length()-1).split(",")[1].trim()));
+            String[] date = pub[1].substring(0, pub[1].length()-1).split(",");
+            if(date.length > 1)
+                book.setYear(new Integer(date[1].trim()));
+            else
+                book.setYear(new Integer(date[0].trim()));
             book.setLanguage(data.get("Language").trim());
-            book.setAuthor(items2.asText());
-            book.setTitle(items3.asText());
-            book.setCover(items4.getAttribute("data-a-dynamic-image").split("\"")[3]);
 
+            if(items2 != null)
+                book.setAuthor(items2.asText());
+            else
+                book.setAuthor(items22.asText());
+
+            book.setTitle(items3.asText());
+
+            List<HtmlElement> images = items4.getHtmlElementsByTagName("img").stream()
+                    .filter(e -> e.hasAttribute("id"))
+                    .filter(e -> e.getId().equals("imgBlkFront") || e.getId().equals("main-image"))
+                    .collect(Collectors.toList());
+
+            book.setCover(images.get(0).getAttribute("data-a-dynamic-image").split("\"")[3]);
 
         }catch(Exception e){
             e.printStackTrace();
