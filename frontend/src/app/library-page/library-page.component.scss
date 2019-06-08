@@ -117,3 +117,7 @@ td, th {
 ::-webkit-scrollbar-track:active {
   background: transparent;
 }
+
+input[type="date"]::-webkit-clear-button {
+  display: none;
+}

@@ -12,10 +12,10 @@
       <Current>1</Current>
       <Visible>1</Visible>
       <Relations>sequence|table|16741|16743|1
+sequence|table|24591|24593|2
 sequence|table|16874|16418|10
 sequence|table|24576|24578|1
 sequence|table|24589|24593|1
-sequence|table|24591|24593|2
 </Relations>
     </database>
     <database id="3" parent="1" name="postgres">

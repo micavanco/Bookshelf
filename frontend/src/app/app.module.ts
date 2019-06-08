@@ -12,7 +12,7 @@ import { RegisterPageComponent } from './register-page/register-page.component';
 import { LibraryPageComponent } from './library-page/library-page.component';
 import { SearchPageComponent } from './search-page/search-page.component';
 import { AuthInterceptorService } from "./auth-interceptor/auth-interceptor.service";
-import { ReactiveFormsModule } from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AccountPageComponent } from './account-page/account-page.component';
 import { BookService } from "./book-service/book.service";
 
@@ -33,7 +33,8 @@ import { BookService } from "./book-service/book.service";
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [UserService, {
     provide: HTTP_INTERCEPTORS,

@@ -31,7 +31,10 @@ export class LoginPageComponent {
     {
       this.isLoading = true;
       this.userService.login(val.username, val.password).subscribe(()=>{},
-        error => this.error = true,
+        error => {
+          this.error = true;
+          this.isLoading = false;
+        },
         () => {
           this.error = false;
           this.isLoading = false;

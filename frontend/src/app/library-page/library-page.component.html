@@ -41,8 +41,8 @@
         <tr>
           <td class="no-border"></td>
           <td class="no-border"></td>
-          <td class="pages-column result-pages">30</td>
-          <td class="pages-column result-pages pages-column-top">30</td>
+          <td class="pages-column result-pages">{{pages_done}}</td>
+          <td class="pages-column result-pages pages-column-top">{{pages-pages_done}}</td>
         </tr>
       </tbody>
     </table>
@@ -60,10 +60,10 @@
 
       <tbody>
         <tr>
-          <td><input type="date" /></td>
-          <td><input type="date" /></td>
-          <td class="pages-column">30</td>
-          <td class="pages-column pages-column-top">30</td>
+          <td><input type="date" [(ngModel)]="start_day" (change)="start_day = onStartChanged($event)"></td>
+          <td><input type="date" [(ngModel)]="end_day" (change)="end_day = onEndChanged($event)"></td>
+          <td class="pages-column">{{per_day}}</td>
+          <td class="pages-column pages-column-top">{{per_month}}</td>
         </tr>
       </tbody>
 
