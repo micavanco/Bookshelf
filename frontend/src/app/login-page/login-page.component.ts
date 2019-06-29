@@ -3,6 +3,7 @@ import { UserService } from "../user-service/user.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { UserBoxComponent } from "../user-box/user-box.component";
+import { BookService } from "../book-service/book.service";
 
 @Component({
   selector: 'app-login-page',
@@ -15,7 +16,7 @@ export class LoginPageComponent {
   error: boolean;
   isLoading: boolean;
 
-  constructor(private userService: UserService, private fb:FormBuilder, private router: Router) {
+  constructor(private userService: UserService, private fb:FormBuilder, private router: Router, private bookService: BookService) {
     this.error = false;
     this.isLoading = false;
     this.form = this.fb.group({
@@ -39,6 +40,7 @@ export class LoginPageComponent {
           this.error = false;
           this.isLoading = false;
           this.router.navigateByUrl('/');
+          this.bookService.getUserAmountOfUserBooks().subscribe(data => localStorage.setItem("amount_books", data));
         });
     }
   }

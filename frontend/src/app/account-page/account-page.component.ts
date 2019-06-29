@@ -11,10 +11,12 @@ import * as jwt_decode from "jwt-decode";
 export class AccountPageComponent implements OnInit {
 
   username: string;
+  amount_books: string;
 
 
   constructor(private userService: UserService, private router: Router) {
     this.username = localStorage.getItem('username');
+    this.amount_books = localStorage.getItem('amount_books');
     if(!userService.isLoggedIn())
       this.router.navigate(['/login']);
   }

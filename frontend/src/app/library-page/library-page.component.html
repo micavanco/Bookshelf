@@ -9,6 +9,7 @@
     <table>
       <thead>
         <tr>
+          <th style="width: 137px">Cover</th>
           <th>Title</th>
           <th class="pages-column">Pages</th>
           <th class="pages-column">Already read pages</th>
@@ -21,6 +22,7 @@
       <table>
 
           <tr *ngFor="let book of books; let i = index">
+            <td><img [src]="book.cover" /></td>
             <td>{{book.title}}</td>
             <td class="pages-column">{{book.pages}}</td>
             <td id="{{i}}" class="pages-column page-click" (click)="onAddPages($event)">

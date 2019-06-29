@@ -39,4 +39,10 @@ export class BookService {
   {
     return this.httpClient.post<IBook>(environment.baseUrl+'/v1/books/getBookDetails', url);
   }
+
+  getUserAmountOfUserBooks()
+  {
+    return this.httpClient.get<string>(environment.baseUrl+'/v1/books/user/amount?username='+localStorage.getItem('username')+
+      "&user_password="+jwt_decode(localStorage.getItem('id_token')).password);
+  }
 }

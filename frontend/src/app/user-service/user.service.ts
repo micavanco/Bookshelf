@@ -64,6 +64,7 @@ export class UserService {
     localStorage.removeItem('id_token');
     localStorage.removeItem('username');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('amount_books');
   }
 
   public isLoggedIn()

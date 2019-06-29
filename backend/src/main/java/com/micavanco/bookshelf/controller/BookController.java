@@ -2,9 +2,6 @@ package com.micavanco.bookshelf.controller;
 
 
 import com.micavanco.bookshelf.model.Book;
-import com.micavanco.bookshelf.model.User;
-import com.micavanco.bookshelf.repository.BookRepository;
-import com.micavanco.bookshelf.repository.UserRepository;
 import com.micavanco.bookshelf.service.BookService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -198,6 +195,25 @@ public class BookController {
                 : new ResponseEntity<List<Book>>(HttpStatus.NO_CONTENT);
     }
 
+    @CrossOrigin(origins = "http://localhost:5000")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @RequestMapping(value = "/user/amount", method = RequestMethod.GET)
+    public ResponseEntity<Integer> getUserAmountOfBooks(@RequestParam(value = "username")String username,
+                                                   @RequestParam(value = "user_password")String user_password)
+    {
+        List<Book> books;
+        try {
+            books = bookService.getUserBooks(username, user_password);
+        }catch (Exception ex)
+        {
+            return new ResponseEntity<Integer>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if(books == null)
+            return new ResponseEntity<Integer>(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<Integer>(books.size(), HttpStatus.OK);
+    }
     private Book createBookfromJSON(JSONObject user_book)
     {
         user_book = user_book.getJSONObject("book");
