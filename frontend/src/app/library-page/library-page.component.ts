@@ -125,4 +125,15 @@ export class LibraryPageComponent implements OnInit {
       this.end_day =  temp.toISOString().split('T')[0];
   }
 
+  onClickDeleteButton(title)
+  {
+    this.bookService.deleteBook(title).subscribe(()=>{}
+    ,error1 => {}
+    ,() => {
+        let amount = Number(localStorage.getItem('amount_books'));
+        localStorage.setItem('amount_books', String(--amount));
+        this.books = this.books.filter(book => book.title !== title);
+      })
+  }
+
 }

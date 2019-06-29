@@ -23,7 +23,7 @@
 
           <tr *ngFor="let book of books; let i = index">
             <td><img [src]="book.cover" /></td>
-            <td>{{book.title}}</td>
+            <td>{{book.title}}<h5 ><span class="delete-btn" (click)="onClickDeleteButton(book.title)">Delete</span></h5></td>
             <td class="pages-column">{{book.pages}}</td>
             <td id="{{i}}" class="pages-column page-click" (click)="onAddPages($event)">
               <span *ngIf="!isEditable[i]" (click)="onAddPagesNumber($event)">{{book.pages_done}}</span>

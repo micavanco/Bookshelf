@@ -48,6 +48,21 @@ img{
   height: 150px;
 }
 
+h5{
+  padding-top: 34px;
+  text-align: left;
+}
+
+.delete-btn{
+  cursor: pointer;
+  color: #f62917;
+  transition: text-shadow ease-in-out 0.3s;
+}
+
+.delete-btn:hover{
+  text-shadow: 1px 1px 5px  rgba(0,0,0,0.4);
+}
+
 .pages-column{
   width: 65px;
   font-size: 12px;

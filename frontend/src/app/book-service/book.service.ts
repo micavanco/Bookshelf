@@ -18,6 +18,13 @@ export class BookService {
       user_password: jwt_decode(localStorage.getItem('id_token')).password});
   }
 
+  deleteBook(title: string)
+  {
+    return this.httpClient.delete(environment.baseUrl+'/v1/books/delete?user_id='+jwt_decode(localStorage.getItem('id_token')).user_id
+      +"&title="+title
+      +"&user_password="+jwt_decode(localStorage.getItem('id_token')).password);
+  }
+
   updateBook(book: IBook)
   {
     return this.httpClient.post(environment.baseUrl+'/v1/books/update', {book, user_id: jwt_decode(localStorage.getItem('id_token')).user_id,

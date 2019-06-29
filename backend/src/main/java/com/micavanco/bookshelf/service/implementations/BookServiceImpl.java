@@ -91,7 +91,7 @@ public class BookServiceImpl implements BookService {
     public boolean deleteUserBookByTitle(Long user_id, String title, String user_password) {
         User user = userRepository.getById(user_id);
 
-        if(user == null || !passwordEncoder.matches(user_password, user.getPassword()))
+        if(user == null || !user_password.equals(user.getPassword()))
             return false;
 
         bookRepository.deleteUserBookByTitle(user, title);

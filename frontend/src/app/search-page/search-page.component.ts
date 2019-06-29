@@ -20,6 +20,7 @@ export class SearchPageComponent{
   ref: any;
   id: number;
   i: number;
+  user_search: string;
 
   constructor(private bookService: BookService, private userService: UserService, private router: Router) {
     this.isLoading = false;
@@ -28,6 +29,7 @@ export class SearchPageComponent{
     this.isChecked = [];
     this.books = [];
     this.i = 0;
+    this.user_search = localStorage.getItem("user_search");
   }
 
   onSearch(event: any)
@@ -38,6 +40,7 @@ export class SearchPageComponent{
       this.books.length = 0;
       this.successLoading.length = 0;
       this.isChecked.length = 0;
+      localStorage.setItem("user_search", event.target.value);
       this.bookService.searchBooks(event.target.value).subscribe(data => this.books = data,
           error1 => error1,
         () => {
@@ -72,6 +75,8 @@ export class SearchPageComponent{
         this.ref = event.target.parentElement.parentElement;
         this.id = event.target.parentElement.id;
         this.isLoading2[this.id] = true;
+        let amount = Number(localStorage.getItem('amount_books'));
+        localStorage.setItem('amount_books', String(++amount));
         this.bookService.getBookDetails(this.books[this.id].publisher).subscribe(data => this.book = data,
             error1 => error1,
           () => {
