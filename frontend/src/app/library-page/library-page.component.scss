@@ -73,6 +73,15 @@ h5{
   width: 74px;
 }
 
+.column-header{
+  cursor: pointer;
+  transition: background-color 0.4s ease-in-out;
+}
+
+.column-header:hover{
+  background: rgba(240, 240, 240, 0.3);
+}
+
 .pages-input{
   width: 45px;
   text-align: center;

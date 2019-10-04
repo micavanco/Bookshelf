@@ -9,11 +9,11 @@
     <table>
       <thead>
         <tr>
-          <th style="width: 137px">Cover</th>
-          <th>Title</th>
-          <th class="pages-column">Pages</th>
-          <th class="pages-column">Already read pages</th>
-          <th class="pages-column pages-column-top">Pages left</th>
+          <th class="column-header" style="width: 137px" (click)="sort_value = 'title'">Cover</th>
+          <th class="column-header" (click)="sort_value = 'title'">Title</th>
+          <th class="pages-column column-header" (click)="sort_value = 'pages'">Pages</th>
+          <th class="pages-column column-header" (click)="sort_value = 'pages_done'">Already read pages</th>
+          <th class="pages-column pages-column-top column-header" (click)="sort_value = 'pages_left'">Pages left</th>
         </tr>
       </thead>
     </table>
@@ -21,7 +21,7 @@
     <div class="books-container">
       <table>
 
-          <tr *ngFor="let book of books; let i = index">
+          <tr *ngFor="let book of books | sortBy: [sort_value]; let i = index">
             <td><img [src]="book.cover" /></td>
             <td>{{book.title}}<h5 ><span class="delete-btn" (click)="onClickDeleteButton(book.title)">Delete</span></h5></td>
             <td class="pages-column">{{book.pages}}</td>

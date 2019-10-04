@@ -17,6 +17,7 @@ export class LibraryPageComponent implements OnInit {
   end_day: any;
   per_day: number;
   per_month: number;
+  sort_value: string;
 
   constructor(private bookService: BookService) {
     this.isEditable = [];
@@ -24,6 +25,7 @@ export class LibraryPageComponent implements OnInit {
     this.per_day = 0;
     this.per_month = 0;
     this.pages_done = 0;
+    this.sort_value = 'title';
     this.start_day = new Date().toISOString().split('T')[0];
     let date = new Date();
     date.setDate(new Date().getDate()+1);
