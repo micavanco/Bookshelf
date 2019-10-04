@@ -17,6 +17,8 @@ export class LibraryPageComponent implements OnInit {
   end_day: any;
   per_day: number;
   per_month: number;
+  sort_value: string;
+  sort_direction: string;
 
   constructor(private bookService: BookService) {
     this.isEditable = [];
@@ -24,6 +26,8 @@ export class LibraryPageComponent implements OnInit {
     this.per_day = 0;
     this.per_month = 0;
     this.pages_done = 0;
+    this.sort_value = 'title';
+    this.sort_direction = 'asc';
     this.start_day = new Date().toISOString().split('T')[0];
     let date = new Date();
     date.setDate(new Date().getDate()+1);
@@ -134,6 +138,11 @@ export class LibraryPageComponent implements OnInit {
         localStorage.setItem('amount_books', String(--amount));
         this.books = this.books.filter(book => book.title !== title);
       })
+  }
+
+  onChangeSortDirection()
+  {
+    this.sort_direction = this.sort_direction === 'asc' ? 'desc' : 'asc';
   }
 
 }
