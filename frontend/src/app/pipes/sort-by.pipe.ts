@@ -10,17 +10,22 @@ export class SortByPipe implements PipeTransform {
     if(array) {
 
       let sortType = args[0];
+      let sortDirection = args[1];
+      let modifier = 1;
+
+      if(sortDirection === 'desc')
+        modifier = -1;
 
       if(sortType === 'pages_left')
         array.sort((a: any, b: any) => {
-          if(a['pages'] - a['pages_done'] < b['pages'] - b['pages_done']) return -1;
-          else if(a['pages'] - a['pages_done'] > b['pages'] - b['pages_done']) return 1;
+          if(a['pages'] - a['pages_done'] < b['pages'] - b['pages_done']) return -1 * modifier;
+          else if(a['pages'] - a['pages_done'] > b['pages'] - b['pages_done']) return 1 * modifier;
           else return 0;
         });
       else
         array.sort((a: any, b: any) => {
-          if(a[sortType] < b[sortType]) return -1;
-          else if(a[sortType] > b[sortType]) return 1;
+          if(a[sortType] < b[sortType]) return -1 * modifier;
+          else if(a[sortType] > b[sortType]) return 1 * modifier;
           else return 0;
         });
 

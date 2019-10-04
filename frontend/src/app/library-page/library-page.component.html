@@ -9,11 +9,29 @@
     <table>
       <thead>
         <tr>
-          <th class="column-header" style="width: 137px" (click)="sort_value = 'title'">Cover</th>
-          <th class="column-header" (click)="sort_value = 'title'">Title</th>
-          <th class="pages-column column-header" (click)="sort_value = 'pages'">Pages</th>
-          <th class="pages-column column-header" (click)="sort_value = 'pages_done'">Already read pages</th>
-          <th class="pages-column pages-column-top column-header" (click)="sort_value = 'pages_left'">Pages left</th>
+          <th class="column-header" style="width: 137px" (click)="sort_value = 'title'; onChangeSortDirection();">
+            Cover
+          </th>
+          <th class="column-header" (click)="sort_value = 'title'; onChangeSortDirection();">
+            Title
+            <span *ngIf="sort_value === 'title' && sort_direction === 'asc'">&#8681;</span>
+            <span *ngIf="sort_value === 'title' && sort_direction === 'desc'">&#8679;</span>
+          </th>
+          <th class="pages-column column-header" (click)="sort_value = 'pages'; onChangeSortDirection();">
+            Pages
+            <span *ngIf="sort_value === 'pages' && sort_direction === 'asc'">&#8681;</span>
+            <span *ngIf="sort_value === 'pages' && sort_direction === 'desc'">&#8679;</span>
+          </th>
+          <th class="pages-column column-header" (click)="sort_value = 'pages_done'; onChangeSortDirection();">
+            Already read pages
+            <span *ngIf="sort_value === 'pages_done' && sort_direction === 'asc'">&#8681;</span>
+            <span *ngIf="sort_value === 'pages_done' && sort_direction === 'desc'">&#8679;</span>
+          </th>
+          <th class="pages-column pages-column-top column-header" (click)="sort_value = 'pages_left'; onChangeSortDirection();">
+            Pages left
+            <span *ngIf="sort_value === 'pages_left' && sort_direction === 'asc'">&#8681;</span>
+            <span *ngIf="sort_value === 'pages_left' && sort_direction === 'desc'">&#8679;</span>
+          </th>
         </tr>
       </thead>
     </table>
@@ -21,7 +39,7 @@
     <div class="books-container">
       <table>
 
-          <tr *ngFor="let book of books | sortBy: [sort_value]; let i = index">
+          <tr *ngFor="let book of books | sortBy: [sort_value, sort_direction]; let i = index">
             <td><img [src]="book.cover" /></td>
             <td>{{book.title}}<h5 ><span class="delete-btn" (click)="onClickDeleteButton(book.title)">Delete</span></h5></td>
             <td class="pages-column">{{book.pages}}</td>
